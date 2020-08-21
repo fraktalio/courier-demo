@@ -24,9 +24,9 @@ public class CourierTest {
 
     @Test
     void createCourierTest(){
-        PersonName personName = new PersonName("Ivan", "Dugalic");
-        CreateCourierCommand createCourierCommand = new CreateCourierCommand(personName, 10);
-        CourierCreatedEvent courierCreatedEvent = new CourierCreatedEvent(createCourierCommand.targetAggregateIdentifier(), personName, 10, new AuditEntry("anonymous",
+        var personName = new PersonName("Ivan", "Dugalic");
+        var createCourierCommand = new CreateCourierCommand(personName, 10);
+        var courierCreatedEvent = new CourierCreatedEvent(createCourierCommand.targetAggregateIdentifier(), personName, 10, new AuditEntry("anonymous",
                                                                                                                                                            Calendar.getInstance()
                                                                                                                                                                    .getTime(),
                                                                                                                                                            Collections.singletonList("anonymous")) );
