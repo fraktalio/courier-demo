@@ -1,6 +1,7 @@
 package com.fraktalio.courier.command.configuration;
 
 import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.common.caching.Cache;
 import org.axonframework.common.caching.WeakReferenceCache;
 import org.axonframework.config.EventProcessingConfigurer;
 import org.axonframework.eventhandling.EventBus;
@@ -15,9 +16,11 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.Executors;
 
 @Configuration
-public class CommandConfiguration {
+public class AxonFrameworkCommandConfiguration {
 
-    // ############### Command & Event Bus Interceptors ###############
+    /************************************************/
+    /* Register interceptors on the bus */
+    /************************************************/
 
     @Autowired
     public void registerCommandInterceptorsOnBus(CommandBus commandBus) {
@@ -34,14 +37,18 @@ public class CommandConfiguration {
         config.registerDefaultHandlerInterceptor((t, u) -> new LoggingInterceptor<>(u));
     }
 
-    // ############### Aggregate Cache ###############
+    /***************************************/
+    /*  Aggregate cache configuration   */
+    /***************************************/
 
     @Bean("cache")
-    public org.axonframework.common.caching.Cache cache() {
+    public Cache cache() {
         return new WeakReferenceCache();
     }
 
-    // ############### Aggregate Snapshotting ###############
+    /***************************************/
+    /*  Aggregate snapshot configuration   */
+    /***************************************/
 
     @Bean
     public SpringAggregateSnapshotterFactoryBean snapshotter() {
