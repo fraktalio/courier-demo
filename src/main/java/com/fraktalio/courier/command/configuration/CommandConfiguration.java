@@ -45,7 +45,7 @@ public class CommandConfiguration {
 
     @Bean
     public SpringAggregateSnapshotterFactoryBean snapshotter() {
-        SpringAggregateSnapshotterFactoryBean springAggregateSnapshotterFactoryBean = new SpringAggregateSnapshotterFactoryBean();
+        var springAggregateSnapshotterFactoryBean = new SpringAggregateSnapshotterFactoryBean();
         //Setting async executors
         springAggregateSnapshotterFactoryBean.setExecutor(Executors.newSingleThreadExecutor());
         return springAggregateSnapshotterFactoryBean;
