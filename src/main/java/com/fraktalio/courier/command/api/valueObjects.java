@@ -41,6 +41,10 @@ public class valueObjects {
         }
     }
 
+    public static enum ShipmentState {
+        CREATED, ASSIGNING, ASSIGNED, DELIVERED, CANCEL_PENDING, CANCELLED
+    }
+
     public static record AuditEntry(String who, Date when, Collection<String> auth) {
 
         @Override

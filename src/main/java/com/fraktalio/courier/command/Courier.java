@@ -44,7 +44,7 @@ class Courier {
      * @param auditEntry - the authority who initiated this command
      */
     @CommandHandler
-    public Courier(CreateCourierCommand command, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
+    Courier(CreateCourierCommand command, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         apply(
                 new CourierCreatedEvent(
                         command.targetAggregateIdentifier(),
@@ -56,7 +56,7 @@ class Courier {
     }
 
     @EventSourcingHandler
-    public void on(CourierCreatedEvent event) {
+    void on(CourierCreatedEvent event) {
         id = event.aggregateIdentifier();
         name = event.name();
         maxNumberOfActiveOrders = event.maxNumberOfActiveOrders();

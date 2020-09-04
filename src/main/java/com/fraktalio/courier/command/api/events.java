@@ -9,16 +9,23 @@ public class events {
 
     }
 
-    public static record ShipmenDeliveredEvent(ShipmentId agregateIdentifier) {
+    public static record ShipmenDeliveredEvent(ShipmentId aggregateIdentifier, AuditEntry auditEntry) {
 
     }
 
-    public static record ShipmenExpiredEvent(ShipmentId agregateIdentifier) {
+    public static record ShipmenExpiredEvent(ShipmentId aggregateIdentifier, AuditEntry auditEntry) {
 
     }
 
-    public static record ShipmentCollectedEvent(ShipmentId aggregateIdentifier,
-                                                CourierId courierId) {
+    public static record ShipmentAssignedEvent(ShipmentId aggregateIdentifier,
+                                               CourierId courierId,
+                                               AuditEntry auditEntry) {
+
+    }
+
+    public static record ShipmentAssigningInitiatedEvent(ShipmentId aggregateIdentifier,
+                                                         CourierId courierId,
+                                                         AuditEntry auditEntry) {
 
     }
 
@@ -27,8 +34,9 @@ public class events {
 
     }
 
-    public static record ShipmentNotCollectedEvent(ShipmentId aggregateIdentifier,
-                                                   CourierId courierId) {
+    public static record ShipmentNotAssignedEvent(ShipmentId aggregateIdentifier,
+                                                  CourierId courierId,
+                                                  AuditEntry auditEntry) {
 
     }
 }

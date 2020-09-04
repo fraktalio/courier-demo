@@ -15,9 +15,19 @@ public class commands {
         }
     }
 
-    public static record CollectShipmentCommand(@TargetAggregateIdentifier
+    public static record AssignShipmentCommand(@TargetAggregateIdentifier
                                                 ShipmentId targetAggregateIdentifier,
-                                                CourierId courierId) {
+                                               CourierId courierId) {
+
+    }
+
+    public static record MarkShipmentAsAssignedCommand(@TargetAggregateIdentifier ShipmentId targetAggregateIdentifier,
+                                                       CourierId courierId) {
+
+    }
+
+    public static record MarkShipmentAsNotAssignedCommand(
+            @TargetAggregateIdentifier ShipmentId targetAggregateIdentifier, CourierId courierId) {
 
     }
 
@@ -30,7 +40,8 @@ public class commands {
         }
     }
 
-    public static record MarkShipmentAsDeliveredCommand(@TargetAggregateIdentifier ShipmentId targetAggregateIdentifier) {
+    public static record MarkShipmentAsDeliveredCommand(
+            @TargetAggregateIdentifier ShipmentId targetAggregateIdentifier) {
 
     }
 
