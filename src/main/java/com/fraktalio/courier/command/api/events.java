@@ -9,23 +9,19 @@ public class events {
 
     }
 
-    public static record ShipmenDeliveredEvent(ShipmentId aggregateIdentifier, AuditEntry auditEntry) {
+    public static record ShipmentDeliveredEvent(ShipmentId aggregateIdentifier,
+                                                CourierId courierId,
+                                                AuditEntry auditEntry) {
 
     }
 
-    public static record ShipmenExpiredEvent(ShipmentId aggregateIdentifier, AuditEntry auditEntry) {
+    public static record ShipmentExpiredEvent(ShipmentId aggregateIdentifier, AuditEntry auditEntry) {
 
     }
 
     public static record ShipmentAssignedEvent(ShipmentId aggregateIdentifier,
                                                CourierId courierId,
                                                AuditEntry auditEntry) {
-
-    }
-
-    public static record ShipmentAssigningInitiatedEvent(ShipmentId aggregateIdentifier,
-                                                         CourierId courierId,
-                                                         AuditEntry auditEntry) {
 
     }
 

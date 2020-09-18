@@ -8,8 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan
 public class CourierApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CourierApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(CourierApplication.class, args);
+    }
 }

@@ -20,6 +20,7 @@ public class CourierCommandConfiguration {
 
     /************************************************/
     /* Register interceptors on the bus */
+
     /************************************************/
 
     @Autowired
@@ -39,6 +40,7 @@ public class CourierCommandConfiguration {
 
     /***************************************/
     /*  Aggregate cache configuration   */
+
     /***************************************/
 
     @Bean("cache")
@@ -48,6 +50,7 @@ public class CourierCommandConfiguration {
 
     /***************************************/
     /*  Aggregate snapshot configuration   */
+
     /***************************************/
 
     @Bean
@@ -59,12 +62,16 @@ public class CourierCommandConfiguration {
     }
 
     @Bean("courierSnapshotTriggerDefinition")
-    EventCountSnapshotTriggerDefinition courierSnapshotTriggerDefinition(Snapshotter snapshotter, CourierProperties courierProperties) {
-        return new EventCountSnapshotTriggerDefinition(snapshotter, courierProperties.snapshotTriggerThresholdCourier());
+    EventCountSnapshotTriggerDefinition courierSnapshotTriggerDefinition(Snapshotter snapshotter,
+                                                                         CourierProperties courierProperties) {
+        return new EventCountSnapshotTriggerDefinition(snapshotter,
+                                                       courierProperties.snapshotTriggerThresholdCourier());
     }
 
     @Bean("shipmentSnapshotTriggerDefinition")
-    EventCountSnapshotTriggerDefinition shipmentSnapshotTriggerDefinition(Snapshotter snapshotter, CourierProperties courierProperties) {
-        return new EventCountSnapshotTriggerDefinition(snapshotter, courierProperties.snapshotTriggerThresholdShipment());
+    EventCountSnapshotTriggerDefinition shipmentSnapshotTriggerDefinition(Snapshotter snapshotter,
+                                                                          CourierProperties courierProperties) {
+        return new EventCountSnapshotTriggerDefinition(snapshotter,
+                                                       courierProperties.snapshotTriggerThresholdShipment());
     }
 }

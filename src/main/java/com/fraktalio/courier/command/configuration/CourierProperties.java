@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "courier")
 @ConstructorBinding
-public record CourierProperties(Integer snapshotTriggerThresholdCourier, Integer snapshotTriggerThresholdShipment){
+public record CourierProperties(Integer snapshotTriggerThresholdCourier, Integer snapshotTriggerThresholdShipment) {
 
     public CourierProperties() {
         this(100, 100);

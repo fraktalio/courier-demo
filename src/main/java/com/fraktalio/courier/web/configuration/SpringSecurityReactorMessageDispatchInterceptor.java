@@ -33,28 +33,28 @@ public class SpringSecurityReactorMessageDispatchInterceptor<M extends Message<?
                         )
                 )
         ).map(SecurityContext::getAuthentication).flatMap(authentication -> message
-                                                    .map(m -> (M) m.andMetaData(Map.of("auditEntry",
-                                                                                       new AuditEntry(
-                                                                                               authentication
-                                                                                                       .getPrincipal() instanceof User ? ((User) authentication
-                                                                                                       .getPrincipal())
-                                                                                                       .getUsername() : authentication
-                                                                                                       .getPrincipal()
-                                                                                                       .toString(),
-                                                                                               Calendar.getInstance()
-                                                                                                       .getTime(),
-                                                                                               authentication
-                                                                                                       .getAuthorities()
-                                                                                                       .stream()
-                                                                                                       .map(GrantedAuthority::getAuthority)
-                                                                                                       .collect(
-                                                                                                               Collectors
-                                                                                                                       .toList()
-                                                                                                       )
-                                                                                       )
-                                                                                )
-                                                         )
-                                                    )
-                                            );
+                .map(m -> (M) m.andMetaData(Map.of("auditEntry",
+                                                   new AuditEntry(
+                                                           authentication
+                                                                   .getPrincipal() instanceof User ? ((User) authentication
+                                                                   .getPrincipal())
+                                                                   .getUsername() : authentication
+                                                                   .getPrincipal()
+                                                                   .toString(),
+                                                           Calendar.getInstance()
+                                                                   .getTime(),
+                                                           authentication
+                                                                   .getAuthorities()
+                                                                   .stream()
+                                                                   .map(GrantedAuthority::getAuthority)
+                                                                   .collect(
+                                                                           Collectors
+                                                                                   .toList()
+                                                                   )
+                                                   )
+                                            )
+                     )
+                )
+        );
     }
 }

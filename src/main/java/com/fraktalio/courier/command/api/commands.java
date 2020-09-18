@@ -15,37 +15,22 @@ public class commands {
         }
     }
 
+
     public static record AssignShipmentCommand(@TargetAggregateIdentifier
-                                                ShipmentId targetAggregateIdentifier,
+                                               ShipmentId targetAggregateIdentifier,
                                                CourierId courierId) {
 
     }
 
-    public static record MarkShipmentAsAssignedCommand(@TargetAggregateIdentifier ShipmentId targetAggregateIdentifier,
-                                                       CourierId courierId) {
-
-    }
-
-    public static record MarkShipmentAsNotAssignedCommand(
-            @TargetAggregateIdentifier ShipmentId targetAggregateIdentifier, CourierId courierId) {
-
-    }
 
     public static record CreateShipmentCommand(@TargetAggregateIdentifier
                                                ShipmentId targetAggregateIdentifier,
                                                Address address) {
 
-        public CreateShipmentCommand(Address address) {
-            this(new ShipmentId(), address);
-        }
     }
 
     public static record MarkShipmentAsDeliveredCommand(
             @TargetAggregateIdentifier ShipmentId targetAggregateIdentifier) {
-
-    }
-
-    public static record MarkShipmentAsExpiredCommand(@TargetAggregateIdentifier ShipmentId targetAggregateIdentifier) {
 
     }
 }

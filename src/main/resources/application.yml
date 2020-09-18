@@ -28,6 +28,10 @@ axon:
     general: xstream
     messages: xstream
     events: jackson
+  eventhandling:
+    processors:
+      SubscribingCourierProcessor:
+        mode: subscribing
 
 courier:
   snapshot-trigger-treshold-courier: 200
@@ -51,8 +55,4 @@ logging:
   level:
     io.rsocket.FrameLogger: DEBUG
 
-info:
-  app:
-    name: @project.name@
-    version: @project.version@
 

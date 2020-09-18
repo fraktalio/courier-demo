@@ -3,9 +3,13 @@ package com.fraktalio.courier.command;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
+import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import static com.fraktalio.courier.command.api.commands.*;
+import java.util.Optional;
+
+import static com.fraktalio.courier.command.api.commands.AssignShipmentCommand;
+import static com.fraktalio.courier.command.api.commands.CreateShipmentCommand;
 import static com.fraktalio.courier.command.api.events.*;
 import static com.fraktalio.courier.command.api.valueObjects.*;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -13,6 +17,7 @@ import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 @Aggregate(snapshotTriggerDefinition = "shipmentSnapshotTriggerDefinition", cache = "cache")
 class Shipment {
 
+    @AggregateIdentifier
     private ShipmentId id;
     private CourierId courierId;
     private ShipmentState state;
@@ -37,13 +42,13 @@ class Shipment {
      * @param auditEntry - the authority who initiated this command
      */
     @CommandHandler
-    public Shipment(CreateShipmentCommand command,
-                    @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
+    Shipment(CreateShipmentCommand command,
+             @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         apply(new ShipmentCreatedEvent(command.targetAggregateIdentifier(), command.address(), auditEntry));
     }
 
     @EventSourcingHandler
-    public void on(ShipmentCreatedEvent event) {
+    void on(ShipmentCreatedEvent event) {
         id = event.aggregateIdentifier();
         courierId = null;
         state = ShipmentState.CREATED;
@@ -51,59 +56,29 @@ class Shipment {
 
     @CommandHandler
     void on(AssignShipmentCommand command,
-                @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
-        if (ShipmentState.CREATED == state) {
-            apply(new ShipmentAssigningInitiatedEvent(command.targetAggregateIdentifier(),
-                                                      command.courierId(),
-                                                      auditEntry));
-        } else {
-            throw new UnsupportedOperationException("The current state of Shipment is not %s"
-                                                            .formatted(ShipmentState.CREATED));
-        }
-    }
+            @MetaDataValue(value = "auditEntry") AuditEntry auditEntry,
+            CourierShipmentsRepository courierShipmentsRepository) {
 
-    @EventSourcingHandler
-    public void on(ShipmentAssigningInitiatedEvent event) {
-        state = ShipmentState.ASSIGNING;
-        courierId = event.courierId();
-    }
-
-    @CommandHandler
-    void on(MarkShipmentAsAssignedCommand command,
-            @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
-        if (ShipmentState.ASSIGNING == state && command.courierId() == courierId) {
+        Optional<CourierShipmentsEntity> entity = courierShipmentsRepository.findById(command.courierId().identifier());
+        if (entity.isPresent() && entity.get().getNumberOfActiveOrders() < entity.get().getMaxNumberOfActiveOrders()) {
             apply(new ShipmentAssignedEvent(command.targetAggregateIdentifier(),
                                             command.courierId(),
                                             auditEntry));
         } else {
-            throw new UnsupportedOperationException(
-                    "The current state of Shipment is not %s and/or it is not the same Courier that initiated the process"
-                            .formatted(ShipmentState.ASSIGNING));
+            apply(new ShipmentNotAssignedEvent(command.targetAggregateIdentifier(),
+                                               command.courierId(),
+                                               auditEntry));
         }
     }
 
     @EventSourcingHandler
-    public void on(ShipmentAssignedEvent event) {
+    void on(ShipmentAssignedEvent event) {
         state = ShipmentState.ASSIGNED;
         courierId = event.courierId();
     }
 
-    @CommandHandler
-    void on(MarkShipmentAsNotAssignedCommand command,
-            @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
-        if (ShipmentState.ASSIGNING == state && command.courierId() == courierId) {
-            apply(new ShipmentNotAssignedEvent(command.targetAggregateIdentifier(),
-                                               command.courierId(),
-                                               auditEntry));
-        } else {
-            throw new UnsupportedOperationException(
-                    "The current state of Shipment is not %s and/or it is not the same Courier that initiated the process"
-                            .formatted(ShipmentState.ASSIGNING));
-        }
-    }
-
     @EventSourcingHandler
-    public void on(ShipmentNotAssignedEvent event) {
+    void on(ShipmentNotAssignedEvent event) {
         state = ShipmentState.CREATED;
         courierId = null;
     }

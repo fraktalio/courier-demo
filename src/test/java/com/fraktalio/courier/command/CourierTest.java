@@ -23,17 +23,18 @@ public class CourierTest {
     }
 
     @Test
-    void createCourierTest(){
+    void createCourierTest() {
         var personName = new PersonName("Ivan", "Dugalic");
         var createCourierCommand = new CreateCourierCommand(personName, 10);
-        var courierCreatedEvent = new CourierCreatedEvent(createCourierCommand.targetAggregateIdentifier(), personName, 10, new AuditEntry("anonymous",
-                                                                                                                                                           Calendar.getInstance()
-                                                                                                                                                                   .getTime(),
-                                                                                                                                                           Collections.singletonList("anonymous")) );
+        var courierCreatedEvent = new CourierCreatedEvent(createCourierCommand.targetAggregateIdentifier(),
+                                                          personName,
+                                                          10,
+                                                          new AuditEntry("anonymous",
+                                                                         Calendar.getInstance()
+                                                                                 .getTime(),
+                                                                         Collections.singletonList("anonymous")));
         testFixture.given()
                    .when(createCourierCommand)
                    .expectEvents(courierCreatedEvent);
-
     }
-
 }
