@@ -59,15 +59,22 @@ class Shipment {
             @MetaDataValue(value = "auditEntry") AuditEntry auditEntry,
             CourierShipmentsRepository courierShipmentsRepository) {
 
-        Optional<CourierShipmentsEntity> entity = courierShipmentsRepository.findById(command.courierId().identifier());
-        if (entity.isPresent() && entity.get().getNumberOfActiveOrders() < entity.get().getMaxNumberOfActiveOrders()) {
-            apply(new ShipmentAssignedEvent(command.targetAggregateIdentifier(),
-                                            command.courierId(),
-                                            auditEntry));
+        if (ShipmentState.CREATED == state) {
+
+            Optional<CourierShipmentsEntity> entity = courierShipmentsRepository.findById(command.courierId()
+                                                                                                 .identifier());
+            if (entity.isPresent() && entity.get().getNumberOfActiveOrders() < entity.get()
+                                                                                     .getMaxNumberOfActiveOrders()) {
+                apply(new ShipmentAssignedEvent(command.targetAggregateIdentifier(),
+                                                command.courierId(),
+                                                auditEntry));
+            } else {
+                apply(new ShipmentNotAssignedEvent(command.targetAggregateIdentifier(),
+                                                   command.courierId(),
+                                                   auditEntry));
+            }
         } else {
-            apply(new ShipmentNotAssignedEvent(command.targetAggregateIdentifier(),
-                                               command.courierId(),
-                                               auditEntry));
+            throw new UnsupportedOperationException("The shipment is not in CREATED state");
         }
     }
 

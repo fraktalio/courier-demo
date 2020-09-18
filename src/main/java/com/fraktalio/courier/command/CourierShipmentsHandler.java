@@ -15,6 +15,7 @@ import static com.fraktalio.courier.command.api.events.*;
 @ProcessingGroup("SubscribingCourierProcessor")
 class CourierShipmentsHandler {
 
+
     private final CourierShipmentsRepository courierShipmentsRepository;
 
     CourierShipmentsHandler(CourierShipmentsRepository courierShipmentsRepository) {

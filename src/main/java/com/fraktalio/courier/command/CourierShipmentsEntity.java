@@ -14,36 +14,36 @@ class CourierShipmentsEntity {
     private Integer maxNumberOfActiveOrders;
     private Integer numberOfActiveOrders;
 
-    public CourierShipmentsEntity() {
+    protected CourierShipmentsEntity() {
     }
 
-    public CourierShipmentsEntity(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
+    CourierShipmentsEntity(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
         this.id = id;
         this.maxNumberOfActiveOrders = maxNumberOfActiveOrders;
         this.numberOfActiveOrders = numberOfActiveOrders;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    void setId(String id) {
         this.id = id;
     }
 
-    public Integer getMaxNumberOfActiveOrders() {
+    Integer getMaxNumberOfActiveOrders() {
         return maxNumberOfActiveOrders;
     }
 
-    public void setMaxNumberOfActiveOrders(Integer maxNumberOfActiveOrders) {
+    void setMaxNumberOfActiveOrders(Integer maxNumberOfActiveOrders) {
         this.maxNumberOfActiveOrders = maxNumberOfActiveOrders;
     }
 
-    public Integer getNumberOfActiveOrders() {
+    Integer getNumberOfActiveOrders() {
         return numberOfActiveOrders;
     }
 
-    public void setNumberOfActiveOrders(Integer numberOfActiveOrders) {
+    void setNumberOfActiveOrders(Integer numberOfActiveOrders) {
         this.numberOfActiveOrders = numberOfActiveOrders;
     }
 }
