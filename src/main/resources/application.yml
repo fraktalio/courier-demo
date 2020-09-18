@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:restaurant
+    url: jdbc:h2:mem:courier
   jpa:
     hibernate:
       ddl-auto: create-drop

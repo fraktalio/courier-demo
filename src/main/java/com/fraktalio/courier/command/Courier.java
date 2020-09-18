@@ -20,9 +20,6 @@ class Courier {
      */
     @AggregateIdentifier
     private CourierId id;
-    private PersonName name;
-    private Integer maxNumberOfActiveOrders = 5;
-    private Integer numberOfActiveOrders = 0;
 
     /**
      * This default constructor is used by the Repository to construct a prototype
@@ -58,8 +55,5 @@ class Courier {
     @EventSourcingHandler
     void on(CourierCreatedEvent event) {
         id = event.aggregateIdentifier();
-        name = event.name();
-        maxNumberOfActiveOrders = event.maxNumberOfActiveOrders();
-        numberOfActiveOrders = 0;
     }
 }
