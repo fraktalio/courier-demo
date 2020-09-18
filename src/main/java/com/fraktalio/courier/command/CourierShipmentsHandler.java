@@ -8,6 +8,9 @@ import java.util.Optional;
 
 import static com.fraktalio.courier.command.api.events.*;
 
+/**
+ * Subscribing event processor - Immediate consistency
+ */
 @Component
 @ProcessingGroup("SubscribingCourierProcessor")
 class CourierShipmentsHandler {

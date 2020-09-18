@@ -3,6 +3,9 @@ package com.fraktalio.courier.command;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * Query side aggregate model - Immediately consistent
+ */
 @Entity
 class CourierShipmentsEntity {
 
