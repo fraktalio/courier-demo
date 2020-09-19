@@ -57,12 +57,12 @@ class Shipment {
     @CommandHandler
     void on(AssignShipmentCommand command,
             @MetaDataValue(value = "auditEntry") AuditEntry auditEntry,
-            CourierShipmentsRepository courierShipmentsRepository) {
+            CourierRepository courierRepository) {
 
         if (ShipmentState.CREATED == state) {
 
-            Optional<CourierShipmentsEntity> entity = courierShipmentsRepository.findById(command.courierId()
-                                                                                                 .identifier());
+            Optional<CourierEntity> entity = courierRepository.findById(command.courierId()
+                                                                               .identifier());
             if (entity.isPresent() && entity.get().getNumberOfActiveOrders() < entity.get()
                                                                                      .getMaxNumberOfActiveOrders()) {
                 apply(new ShipmentAssignedEvent(command.targetAggregateIdentifier(),

@@ -1,4 +1,4 @@
-package com.fraktalio.courier.command;
+package com.fraktalio.courier.query;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
  * Projection - Query side aggregate model - Immediately consistent
  */
 @Repository
-interface CourierShipmentsRepository extends JpaRepository<CourierShipmentsEntity, String> {
+interface CourierRepository extends JpaRepository<CourierEntity, String> {
 
 }

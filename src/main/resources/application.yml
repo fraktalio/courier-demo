@@ -30,7 +30,7 @@ axon:
     events: jackson
   eventhandling:
     processors:
-      SubscribingCourierProcessor:
+      CourierSubscribingProcessor:
         mode: subscribing
 
 courier:

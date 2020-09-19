@@ -1,4 +1,4 @@
-package com.fraktalio.courier.command;
+package com.fraktalio.courier.query;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,17 +7,17 @@ import javax.persistence.Id;
  * Query side aggregate model - Immediately consistent
  */
 @Entity
-class CourierShipmentsEntity {
+class CourierEntity {
 
     @Id
     private String id;
     private Integer maxNumberOfActiveOrders;
     private Integer numberOfActiveOrders;
 
-    protected CourierShipmentsEntity() {
+    protected CourierEntity() {
     }
 
-    CourierShipmentsEntity(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
+    CourierEntity(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
         this.id = id;
         this.maxNumberOfActiveOrders = maxNumberOfActiveOrders;
         this.numberOfActiveOrders = numberOfActiveOrders;
