@@ -11,13 +11,15 @@ class CourierEntity {
 
     @Id
     private String id;
+    private String firstName;
+    private String lastName;
     private Integer maxNumberOfActiveOrders;
     private Integer numberOfActiveOrders;
 
     protected CourierEntity() {
     }
 
-    CourierEntity(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
+    CourierEntity(String id, String firstName, String lastName, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
         this.id = id;
         this.maxNumberOfActiveOrders = maxNumberOfActiveOrders;
         this.numberOfActiveOrders = numberOfActiveOrders;
@@ -29,6 +31,22 @@ class CourierEntity {
 
     void setId(String id) {
         this.id = id;
+    }
+
+    String getFirstName() {
+        return firstName;
+    }
+
+    void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    String getLastName() {
+        return lastName;
+    }
+
+    void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     Integer getMaxNumberOfActiveOrders() {

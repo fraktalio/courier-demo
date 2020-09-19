@@ -21,4 +21,9 @@ public class valueObjects {
             return identifier;
         }
     }
+
+    public static record CourierModel(String aggregateIdentifier, String firstName, String lastName,
+                                      Integer maxNumberOfActiveOrders) {
+
+    }
 }

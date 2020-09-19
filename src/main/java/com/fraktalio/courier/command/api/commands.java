@@ -30,7 +30,8 @@ public class commands {
     }
 
     public static record MarkShipmentAsDeliveredCommand(
-            @TargetAggregateIdentifier ShipmentId targetAggregateIdentifier) {
+            @TargetAggregateIdentifier ShipmentId targetAggregateIdentifier,
+            CourierId courierId) {
 
     }
 }

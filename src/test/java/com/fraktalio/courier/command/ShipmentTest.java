@@ -1,5 +1,6 @@
 package com.fraktalio.courier.command;
 
+import com.fraktalio.courier.command.api.commands;
 import com.fraktalio.courier.web.configuration.SpringSecurityReactorMessageDispatchInterceptor;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.jupiter.api.*;
@@ -89,5 +90,27 @@ public class ShipmentTest {
         testFixture.given(shipmentCreatedEvent)
                    .when(assignShipmentCommand)
                    .expectEvents(shipmentNotAssignedEvent);
+    }
+
+    @Test
+    void shipmentDeliveredTest() {
+        var address = new Address("city", "name");
+        var shipmentId = new ShipmentId();
+        var courierId = new CourierId();
+        var auditEntry = new AuditEntry("anonymous",
+                                        Calendar.getInstance()
+                                                .getTime(),
+                                        Collections.singletonList("anonymous"));
+
+        var shipmentCreatedEvent = new ShipmentCreatedEvent(shipmentId,
+                                                            address,
+                                                            auditEntry);
+        var shipmentAssignedEvent = new ShipmentAssignedEvent(shipmentId, courierId, auditEntry);
+        var markShipmentAsDeliveredCommand = new commands.MarkShipmentAsDeliveredCommand(shipmentId, courierId);
+        var shipmentDeliveredEvent = new ShipmentDeliveredEvent(shipmentId, courierId, auditEntry);
+
+        testFixture.given(shipmentCreatedEvent, shipmentAssignedEvent)
+                   .when(markShipmentAsDeliveredCommand)
+                   .expectEvents(shipmentDeliveredEvent);
     }
 }

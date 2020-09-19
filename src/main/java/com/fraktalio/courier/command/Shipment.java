@@ -8,8 +8,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.Optional;
 
-import static com.fraktalio.courier.command.api.commands.AssignShipmentCommand;
-import static com.fraktalio.courier.command.api.commands.CreateShipmentCommand;
+import static com.fraktalio.courier.command.api.commands.*;
 import static com.fraktalio.courier.command.api.events.*;
 import static com.fraktalio.courier.command.api.valueObjects.*;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -88,5 +87,24 @@ class Shipment {
     void on(ShipmentNotAssignedEvent event) {
         state = ShipmentState.CREATED;
         courierId = null;
+    }
+
+
+    @CommandHandler
+    void on(MarkShipmentAsDeliveredCommand command,
+            @MetaDataValue(value = "auditEntry") AuditEntry auditEntry,
+            CourierRepository courierRepository) {
+        if (ShipmentState.ASSIGNED == state && command.courierId().equals(courierId)) {
+            apply(new ShipmentDeliveredEvent(command.targetAggregateIdentifier(),
+                                             command.courierId(),
+                                             auditEntry));
+        } else {
+            throw new UnsupportedOperationException("The shipment is not in ASSIGNED state");
+        }
+    }
+
+    @EventSourcingHandler
+    void on(ShipmentDeliveredEvent event) {
+        state = ShipmentState.DELIVERED;
     }
 }
