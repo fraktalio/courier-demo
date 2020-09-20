@@ -19,14 +19,14 @@ public class ShipmentTest {
 
     private AggregateTestFixture<Shipment> testFixture;
 
-    private CourierRepository courierRepository;
+    private CourierProjectionRepository courierProjectionRepository;
 
     @BeforeEach
     void setUp() {
-        courierRepository = Mockito.mock(CourierRepository.class);
+        courierProjectionRepository = Mockito.mock(CourierProjectionRepository.class);
         testFixture = new AggregateTestFixture<>(Shipment.class);
         testFixture.registerCommandDispatchInterceptor(new SpringSecurityReactorMessageDispatchInterceptor<>());
-        testFixture.registerInjectableResource(courierRepository);
+        testFixture.registerInjectableResource(courierProjectionRepository);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class ShipmentTest {
         var shipmentCreatedEvent = new ShipmentCreatedEvent(shipmentId,
                                                             address,
                                                             auditEntry);
-        Mockito.when(courierRepository.findById(courierId.identifier())).thenReturn(
-                Optional.of(new CourierEntity(shipmentId.identifier(), 3, 1)
+        Mockito.when(courierProjectionRepository.findById(courierId.identifier())).thenReturn(
+                Optional.of(new CourierProjection(shipmentId.identifier(), 3, 1)
                 ));
         var assignShipmentCommand = new AssignShipmentCommand(shipmentId, courierId);
         var shipmentAssignedEvent = new ShipmentAssignedEvent(shipmentId, courierId, auditEntry);
@@ -82,8 +82,8 @@ public class ShipmentTest {
         var shipmentCreatedEvent = new ShipmentCreatedEvent(shipmentId,
                                                             address,
                                                             auditEntry);
-        Mockito.when(courierRepository.findById(courierId.identifier())).thenReturn(
-                Optional.of(new CourierEntity(shipmentId.identifier(), 3, 3)
+        Mockito.when(courierProjectionRepository.findById(courierId.identifier())).thenReturn(
+                Optional.of(new CourierProjection(shipmentId.identifier(), 3, 3)
                 ));
         var assignShipmentCommand = new AssignShipmentCommand(shipmentId, courierId);
         var shipmentNotAssignedEvent = new ShipmentNotAssignedEvent(shipmentId, courierId, auditEntry);

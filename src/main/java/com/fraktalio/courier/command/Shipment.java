@@ -56,12 +56,12 @@ class Shipment {
     @CommandHandler
     void on(AssignShipmentCommand command,
             @MetaDataValue(value = "auditEntry") AuditEntry auditEntry,
-            CourierRepository courierRepository) {
+            CourierProjectionRepository courierProjectionRepository) {
 
         if (ShipmentState.CREATED == state) {
 
-            Optional<CourierEntity> entity = courierRepository.findById(command.courierId()
-                                                                               .identifier());
+            Optional<CourierProjection> entity = courierProjectionRepository.findById(command.courierId()
+                                                                                             .identifier());
             if (entity.isPresent() && entity.get().getNumberOfActiveOrders() < entity.get()
                                                                                      .getMaxNumberOfActiveOrders()) {
                 apply(new ShipmentAssignedEvent(command.targetAggregateIdentifier(),
@@ -93,7 +93,7 @@ class Shipment {
     @CommandHandler
     void on(MarkShipmentAsDeliveredCommand command,
             @MetaDataValue(value = "auditEntry") AuditEntry auditEntry,
-            CourierRepository courierRepository) {
+            CourierProjectionRepository courierProjectionRepository) {
         if (ShipmentState.ASSIGNED == state && command.courierId().equals(courierId)) {
             apply(new ShipmentDeliveredEvent(command.targetAggregateIdentifier(),
                                              command.courierId(),

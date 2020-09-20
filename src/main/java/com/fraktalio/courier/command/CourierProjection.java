@@ -7,17 +7,17 @@ import javax.persistence.Id;
  * Query side aggregate model - Immediately consistent
  */
 @Entity(name = "CmdCourierEntity")
-class CourierEntity {
+class CourierProjection {
 
     @Id
     private String id;
     private Integer maxNumberOfActiveOrders;
     private Integer numberOfActiveOrders;
 
-    protected CourierEntity() {
+    protected CourierProjection() {
     }
 
-    CourierEntity(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
+    CourierProjection(String id, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
         this.id = id;
         this.maxNumberOfActiveOrders = maxNumberOfActiveOrders;
         this.numberOfActiveOrders = numberOfActiveOrders;

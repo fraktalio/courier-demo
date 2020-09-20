@@ -13,28 +13,28 @@ import static com.fraktalio.courier.command.api.events.*;
  */
 @Component("CommandSideCourierHandler")
 @ProcessingGroup("CourierSubscribingProcessor")
-class CourierHandler {
+class CourierProjectionHandler {
 
-    private final CourierRepository courierRepository;
+    private final CourierProjectionRepository courierProjectionRepository;
 
-    CourierHandler(CourierRepository courierRepository) {
-        this.courierRepository = courierRepository;
+    CourierProjectionHandler(CourierProjectionRepository courierProjectionRepository) {
+        this.courierProjectionRepository = courierProjectionRepository;
     }
 
     @EventHandler
     void on(CourierCreatedEvent event) {
-        courierRepository.save(new CourierEntity(event.aggregateIdentifier().identifier(),
-                                                 event.maxNumberOfActiveOrders(),
-                                                 0));
+        courierProjectionRepository.save(new CourierProjection(event.aggregateIdentifier().identifier(),
+                                                               event.maxNumberOfActiveOrders(),
+                                                               0));
     }
 
     @EventHandler
     void on(ShipmentAssignedEvent event) {
-        Optional<CourierEntity> entity = courierRepository.findById(event.courierId().identifier());
+        Optional<CourierProjection> entity = courierProjectionRepository.findById(event.courierId().identifier());
         if (entity.isPresent()) {
             var courierEntity = entity.get();
             courierEntity.setNumberOfActiveOrders(courierEntity.getNumberOfActiveOrders() + 1);
-            courierRepository.save(courierEntity);
+            courierProjectionRepository.save(courierEntity);
         } else {
             throw new RuntimeException("No Courier with this identifier");
         }
@@ -42,11 +42,11 @@ class CourierHandler {
 
     @EventHandler
     void on(ShipmentDeliveredEvent event) {
-        Optional<CourierEntity> entity = courierRepository.findById(event.courierId().identifier());
+        Optional<CourierProjection> entity = courierProjectionRepository.findById(event.courierId().identifier());
         if (entity.isPresent()) {
             var courierEntity = entity.get();
             courierEntity.setNumberOfActiveOrders(courierEntity.getNumberOfActiveOrders() - 1);
-            courierRepository.save(courierEntity);
+            courierProjectionRepository.save(courierEntity);
         } else {
             throw new RuntimeException("No Courier with this identifier");
         }

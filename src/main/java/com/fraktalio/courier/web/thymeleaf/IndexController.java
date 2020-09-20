@@ -12,14 +12,14 @@ import reactor.core.publisher.Mono;
 @Controller
 public class IndexController {
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('COURIER')")
     @GetMapping("/")
     Mono<String> restaurants(Model model, @AuthenticationPrincipal UserDetails user) {
         if (user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .anyMatch(s -> s.equals("ROLE_MANAGER"))) {
             return Mono.just("index-manager");
         } else {
-            return Mono.just("index-user");
+            return Mono.just("index-courier");
         }
     }
 }

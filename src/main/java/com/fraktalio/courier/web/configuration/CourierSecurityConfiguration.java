@@ -18,9 +18,9 @@ class CourierSecurityConfiguration {
     MapReactiveUserDetailsService authentication() {
         //This is NOT intended for production use (it is intended for getting started experience only)
         var user = User.withDefaultPasswordEncoder()
-            .username("user")
+            .username("courier")
             .password("pass")
-            .roles("USER")
+            .roles("COURIER")
             .build();
         var manager = User.withDefaultPasswordEncoder()
             .username("manager")

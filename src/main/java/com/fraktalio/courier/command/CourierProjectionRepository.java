@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
  * Projection - Query side aggregate model - Immediately consistent
  */
 @Repository
-interface CourierRepository extends JpaRepository<CourierEntity, String> {
+interface CourierProjectionRepository extends JpaRepository<CourierProjection, String> {
 
 }
