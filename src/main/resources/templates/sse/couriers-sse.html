@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Couriers - SEE</title>
+</head>
+<body>
+<table id="allCouriers" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Max Number Of Active Orders</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="result" data-th-each="courier : ${couriers}">
+        <td>[[${courier.id}]]</td>
+        <td>[[${courier.firstName}]]</td>
+        <td>[[${courier.lastName}]]</td>
+        <td>[[${courier.maxNumberOfActiveOrders}]]</td>
+    </tr>
+    </tbody>
+</table>
+</body>

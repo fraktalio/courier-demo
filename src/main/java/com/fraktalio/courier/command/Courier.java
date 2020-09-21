@@ -1,14 +1,16 @@
 package com.fraktalio.courier.command;
 
+import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierId;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import static com.fraktalio.courier.command.api.commands.CreateCourierCommand;
-import static com.fraktalio.courier.command.api.events.CourierCreatedEvent;
-import static com.fraktalio.courier.command.api.valueObjects.*;
+import com.fraktalio.courier.command.api.CreateCourierCommand;
+import com.fraktalio.courier.command.api.CourierCreatedEvent;
+
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate(snapshotTriggerDefinition = "courierSnapshotTriggerDefinition", cache = "cache")
@@ -45,7 +47,8 @@ class Courier {
         apply(
                 new CourierCreatedEvent(
                         command.targetAggregateIdentifier(),
-                        command.name(),
+                        command.firstName(),
+                        command.lastName(),
                         command.maxNumberOfActiveOrders(),
                         auditEntry
                 )

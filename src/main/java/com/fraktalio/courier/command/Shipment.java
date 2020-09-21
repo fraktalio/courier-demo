@@ -1,5 +1,16 @@
 package com.fraktalio.courier.command;
 
+import com.fraktalio.courier.command.api.AssignShipmentCommand;
+import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierId;
+import com.fraktalio.courier.command.api.CreateShipmentCommand;
+import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
+import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
+import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
+import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
+import com.fraktalio.courier.command.api.ShipmentId;
+import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
+import com.fraktalio.courier.command.api.ShipmentState;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
@@ -8,9 +19,6 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.Optional;
 
-import static com.fraktalio.courier.command.api.commands.*;
-import static com.fraktalio.courier.command.api.events.*;
-import static com.fraktalio.courier.command.api.valueObjects.*;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate(snapshotTriggerDefinition = "shipmentSnapshotTriggerDefinition", cache = "cache")

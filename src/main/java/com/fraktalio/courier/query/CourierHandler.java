@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.fraktalio.courier.command.api.events.CourierCreatedEvent;
-import static com.fraktalio.courier.command.api.valueObjects.AuditEntry;
-import static com.fraktalio.courier.query.api.queries.FindAllCouriers;
-import static com.fraktalio.courier.query.api.queries.FindCourier;
-import static com.fraktalio.courier.query.api.valueObjects.CourierModel;
+import com.fraktalio.courier.command.api.CourierCreatedEvent;
+import com.fraktalio.courier.command.api.AuditEntry;
+
+import com.fraktalio.courier.query.api.FindAllCouriersQuery;
+import com.fraktalio.courier.query.api.FindCourierQuery;
+
+import com.fraktalio.courier.query.api.CourierModel;
 
 /**
  * Tracking event processor - Eventual consistency
@@ -42,26 +44,26 @@ class CourierHandler {
     @EventHandler
     void on(CourierCreatedEvent event) {
         var record = courierRepository.save(new CourierEntity(event.aggregateIdentifier().identifier(),
-                                                 event.name().firstName(),
-                                                 event.name().lastName(),
+                                                 event.firstName(),
+                                                 event.lastName(),
                                                  event.maxNumberOfActiveOrders(),
                                                  0));
 
         queryUpdateEmitter.emit(
-                FindAllCouriers.class,
+                FindAllCouriersQuery.class,
                 filter -> true,
                 convert(record) );
     }
 
     @QueryHandler
-    List<CourierModel> on(FindAllCouriers query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
+    List<CourierModel> on(FindAllCouriersQuery query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         return courierRepository.findAll().stream()
                                 .map(this::convert)
                                 .collect(Collectors.toList());
     }
 
     @QueryHandler
-    CourierModel on(FindCourier query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
+    CourierModel on(FindCourierQuery query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         return courierRepository.findById(query.courierId().identifier())
                                 .map(this::convert)
                                 .orElseThrow(() -> new UnsupportedOperationException(

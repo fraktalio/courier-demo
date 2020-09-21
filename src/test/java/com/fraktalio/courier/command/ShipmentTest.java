@@ -1,6 +1,14 @@
 package com.fraktalio.courier.command;
 
-import com.fraktalio.courier.command.api.commands;
+import com.fraktalio.courier.command.api.Address;
+import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierId;
+import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
+import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
+import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
+import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
+import com.fraktalio.courier.command.api.ShipmentId;
+import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
 import com.fraktalio.courier.web.configuration.SpringSecurityReactorMessageDispatchInterceptor;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.jupiter.api.*;
@@ -10,10 +18,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Optional;
 
-import static com.fraktalio.courier.command.api.commands.AssignShipmentCommand;
-import static com.fraktalio.courier.command.api.commands.CreateShipmentCommand;
-import static com.fraktalio.courier.command.api.events.*;
-import static com.fraktalio.courier.command.api.valueObjects.*;
+import com.fraktalio.courier.command.api.AssignShipmentCommand;
+import com.fraktalio.courier.command.api.CreateShipmentCommand;
 
 public class ShipmentTest {
 
@@ -106,7 +112,7 @@ public class ShipmentTest {
                                                             address,
                                                             auditEntry);
         var shipmentAssignedEvent = new ShipmentAssignedEvent(shipmentId, courierId, auditEntry);
-        var markShipmentAsDeliveredCommand = new commands.MarkShipmentAsDeliveredCommand(shipmentId, courierId);
+        var markShipmentAsDeliveredCommand = new MarkShipmentAsDeliveredCommand(shipmentId, courierId);
         var shipmentDeliveredEvent = new ShipmentDeliveredEvent(shipmentId, courierId, auditEntry);
 
         testFixture.given(shipmentCreatedEvent, shipmentAssignedEvent)

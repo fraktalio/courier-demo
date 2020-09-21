@@ -1,12 +1,13 @@
 package com.fraktalio.courier.command;
 
+import com.fraktalio.courier.command.api.CourierCreatedEvent;
+import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
+import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-
-import static com.fraktalio.courier.command.api.events.*;
 
 /**
  * Subscribing event processor - Immediate consistency

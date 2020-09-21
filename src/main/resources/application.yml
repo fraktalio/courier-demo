@@ -1,3 +1,4 @@
+
 server:
   port: 8081
 
@@ -19,6 +20,8 @@ spring:
         web-allow-others: true
   main:
     allow-bean-definition-overriding: true
+  application:
+    name: courier-demo
 
 axon:
   metrics:
@@ -51,8 +54,5 @@ management:
     web:
       exposure:
         include: "*"
-logging:
-  level:
-    io.rsocket.FrameLogger: DEBUG
 
 
