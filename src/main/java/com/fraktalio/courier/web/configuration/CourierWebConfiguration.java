@@ -10,6 +10,7 @@ class CourierWebConfiguration {
 
     /***************************************************/
     /* Register a dispatch interceptors on the gateway */
+
     /***************************************************/
 
     @Autowired

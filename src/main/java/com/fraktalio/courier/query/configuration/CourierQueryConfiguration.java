@@ -10,6 +10,7 @@ public class CourierQueryConfiguration {
 
     /************************************************/
     /* Register interceptors on the bus */
+
     /************************************************/
 
     @Autowired

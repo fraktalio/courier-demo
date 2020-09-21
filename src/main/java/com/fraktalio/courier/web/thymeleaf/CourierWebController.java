@@ -1,6 +1,10 @@
 package com.fraktalio.courier.web.thymeleaf;
 
 import com.fraktalio.courier.command.api.CourierId;
+import com.fraktalio.courier.command.api.CreateCourierCommand;
+import com.fraktalio.courier.query.api.CourierModel;
+import com.fraktalio.courier.query.api.FindAllCouriersQuery;
+import com.fraktalio.courier.web.api.CreateCourierRequest;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
 import org.springframework.http.MediaType;
@@ -17,13 +21,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-
-import com.fraktalio.courier.command.api.CreateCourierCommand;
-
-import com.fraktalio.courier.query.api.FindAllCouriersQuery;
-
-import com.fraktalio.courier.query.api.CourierModel;
-import com.fraktalio.courier.web.api.CreateCourierRequest;
 
 @Controller
 public class CourierWebController {
@@ -63,12 +60,12 @@ public class CourierWebController {
 
         var command = new CreateCourierCommand(createCourierRequest.getFirstName(), createCourierRequest.getLastName(),
                                                createCourierRequest.getMaxNumberOfActiveOrders());
-        Mono<CourierId> result  = reactorCommandGateway.send(command);
+        Mono<CourierId> result = reactorCommandGateway.send(command);
 
         return Mono
                 .just(bindingResult)
                 .map(Errors::hasErrors)
-                .filter(aBoolean -> aBoolean==true)
+                .filter(aBoolean -> aBoolean == true)
                 .flatMap(aBoolean -> Mono.just("couriers"))
                 .switchIfEmpty(result.thenReturn("redirect:/couriers"));
     }

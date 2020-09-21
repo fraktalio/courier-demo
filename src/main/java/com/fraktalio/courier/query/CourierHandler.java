@@ -1,5 +1,10 @@
 package com.fraktalio.courier.query;
 
+import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierCreatedEvent;
+import com.fraktalio.courier.query.api.CourierModel;
+import com.fraktalio.courier.query.api.FindAllCouriersQuery;
+import com.fraktalio.courier.query.api.FindCourierQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
@@ -9,14 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.fraktalio.courier.command.api.CourierCreatedEvent;
-import com.fraktalio.courier.command.api.AuditEntry;
-
-import com.fraktalio.courier.query.api.FindAllCouriersQuery;
-import com.fraktalio.courier.query.api.FindCourierQuery;
-
-import com.fraktalio.courier.query.api.CourierModel;
 
 /**
  * Tracking event processor - Eventual consistency
@@ -44,15 +41,15 @@ class CourierHandler {
     @EventHandler
     void on(CourierCreatedEvent event) {
         var record = courierRepository.save(new CourierEntity(event.aggregateIdentifier().identifier(),
-                                                 event.firstName(),
-                                                 event.lastName(),
-                                                 event.maxNumberOfActiveOrders(),
-                                                 0));
+                                                              event.firstName(),
+                                                              event.lastName(),
+                                                              event.maxNumberOfActiveOrders(),
+                                                              0));
 
         queryUpdateEmitter.emit(
                 FindAllCouriersQuery.class,
                 filter -> true,
-                convert(record) );
+                convert(record));
     }
 
     @QueryHandler

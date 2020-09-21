@@ -7,7 +7,8 @@ import org.axonframework.messaging.Message;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public class LoggingReactorMessageDispatchInterceptor<M extends Message<?>> implements ReactorMessageDispatchInterceptor<M> {
+public class LoggingReactorMessageDispatchInterceptor<M extends Message<?>>
+        implements ReactorMessageDispatchInterceptor<M> {
 
     @Override
     public Mono<M> intercept(Mono<M> message) {

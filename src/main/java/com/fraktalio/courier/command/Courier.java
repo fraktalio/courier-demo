@@ -1,15 +1,14 @@
 package com.fraktalio.courier.command;
 
 import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierCreatedEvent;
 import com.fraktalio.courier.command.api.CourierId;
+import com.fraktalio.courier.command.api.CreateCourierCommand;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
-
-import com.fraktalio.courier.command.api.CreateCourierCommand;
-import com.fraktalio.courier.command.api.CourierCreatedEvent;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 

@@ -1,6 +1,7 @@
 package com.fraktalio.courier.query.api;
 
-public class CourierModel{
+public class CourierModel {
+
     private String id;
     private String firstName;
     private String lastName;

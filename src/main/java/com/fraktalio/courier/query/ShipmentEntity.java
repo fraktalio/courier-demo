@@ -1,9 +1,9 @@
 package com.fraktalio.courier.query;
 
+import com.fraktalio.courier.command.api.ShipmentState;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import com.fraktalio.courier.command.api.ShipmentState;
 
 @Entity
 class ShipmentEntity {

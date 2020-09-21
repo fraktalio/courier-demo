@@ -1,9 +1,14 @@
 package com.fraktalio.courier.query;
 
+import com.fraktalio.courier.command.api.AuditEntry;
 import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
 import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
 import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
+import com.fraktalio.courier.command.api.ShipmentState;
+import com.fraktalio.courier.query.api.FindAllShipmentsQuery;
+import com.fraktalio.courier.query.api.FindShipmentQuery;
+import com.fraktalio.courier.query.api.ShipmentModel;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
@@ -14,14 +19,6 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.fraktalio.courier.command.api.AuditEntry;
-import com.fraktalio.courier.command.api.ShipmentState;
-
-import com.fraktalio.courier.query.api.FindAllShipmentsQuery;
-import com.fraktalio.courier.query.api.FindShipmentQuery;
-
-import com.fraktalio.courier.query.api.ShipmentModel;
 
 /**
  * Tracking event processor - Eventual consistency

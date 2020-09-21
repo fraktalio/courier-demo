@@ -1,8 +1,10 @@
 package com.fraktalio.courier.command;
 
 import com.fraktalio.courier.command.api.Address;
+import com.fraktalio.courier.command.api.AssignShipmentCommand;
 import com.fraktalio.courier.command.api.AuditEntry;
 import com.fraktalio.courier.command.api.CourierId;
+import com.fraktalio.courier.command.api.CreateShipmentCommand;
 import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
 import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
@@ -17,9 +19,6 @@ import org.mockito.*;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Optional;
-
-import com.fraktalio.courier.command.api.AssignShipmentCommand;
-import com.fraktalio.courier.command.api.CreateShipmentCommand;
 
 public class ShipmentTest {
 

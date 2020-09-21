@@ -16,7 +16,8 @@ class CourierEntity {
     protected CourierEntity() {
     }
 
-    CourierEntity(String id, String firstName, String lastName, Integer maxNumberOfActiveOrders, Integer numberOfActiveOrders) {
+    CourierEntity(String id, String firstName, String lastName, Integer maxNumberOfActiveOrders,
+                  Integer numberOfActiveOrders) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

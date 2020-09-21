@@ -17,7 +17,7 @@ public class CourierApplication {
     }
 
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer(){
+    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
         return builder ->
                 builder.visibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
     }
