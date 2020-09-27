@@ -36,7 +36,7 @@ public class ShipmentWebController {
         this.reactorQueryGateway = reactorQueryGateway;
     }
 
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('COURIER')")
     @GetMapping(value = "/shipments-sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     Mono<String> shipmentsSSE(Model model) {
         Flux<ShipmentModel> result =
@@ -50,6 +50,13 @@ public class ShipmentWebController {
     Mono<String> shipments(Model model) {
         model.addAttribute("createShipmentRequest", new CreateShipmentRequest());
         return Mono.just("shipments");
+    }
+
+    @PreAuthorize("hasRole('COURIER')")
+    @GetMapping("/courier-shipments")
+    Mono<String> couriershipments(Model model) {
+        model.addAttribute("createShipmentRequest", new CreateShipmentRequest());
+        return Mono.just("courier-shipments");
     }
 
     @PreAuthorize("hasRole('MANAGER')")
