@@ -1,9 +1,12 @@
 package com.fraktalio.courier.web.thymeleaf;
 
 import com.fraktalio.courier.command.api.Address;
+import com.fraktalio.courier.command.api.AssignShipmentCommand;
+import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
+import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
+import com.fraktalio.courier.command.api.ShipmentId;
 import com.fraktalio.courier.query.api.FindAllShipmentsQuery;
-import com.fraktalio.courier.query.api.ShipmentId;
 import com.fraktalio.courier.query.api.ShipmentModel;
 import com.fraktalio.courier.web.api.CreateShipmentRequest;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
@@ -16,11 +19,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 import javax.validation.Valid;
 
 @Controller
@@ -54,19 +59,20 @@ public class ShipmentWebController {
 
     @PreAuthorize("hasRole('COURIER')")
     @GetMapping("/courier-shipments")
-    Mono<String> couriershipments(Model model) {
+    Mono<String> courier_shipments(Model model) {
         model.addAttribute("createShipmentRequest", new CreateShipmentRequest());
         return Mono.just("courier-shipments");
     }
 
     @PreAuthorize("hasRole('MANAGER')")
     @PostMapping("/shipments")
-    Mono<String> addCourier(@Valid @ModelAttribute CreateShipmentRequest createShipmentRequest,
-                            BindingResult bindingResult,
-                            Model model
+    Mono<String> addShipment(@Valid @ModelAttribute CreateShipmentRequest createShipmentRequest,
+                             BindingResult bindingResult,
+                             Model model
     ) {
 
-        var command = new CreateShipmentCommand(new Address(createShipmentRequest.getCity(), createShipmentRequest.getStreet()));
+        var command = new CreateShipmentCommand(new Address(createShipmentRequest.getCity(),
+                                                            createShipmentRequest.getStreet()));
         Mono<ShipmentId> result = reactorCommandGateway.send(command);
 
         return Mono
@@ -75,5 +81,27 @@ public class ShipmentWebController {
                 .filter(aBoolean -> aBoolean == true)
                 .flatMap(aBoolean -> Mono.just("shipments"))
                 .switchIfEmpty(result.thenReturn("redirect:/shipments"));
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @PostMapping("/shipments/{shipmentId}/courier/{courierId}/assigned")
+    Mono<String> assignShipment(@PathVariable UUID shipmentId, @PathVariable UUID courierId) {
+
+        var command = new AssignShipmentCommand(new ShipmentId(shipmentId.toString()),
+                                                new CourierId(courierId.toString()));
+        Mono<Void> result = reactorCommandGateway.send(command);
+
+        return result.thenReturn("redirect:/shipments");
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @PostMapping("/courier-shipments/{shipmentId}/courier/{courierId}/delivered")
+    Mono<String> markShipmentDelivered(@PathVariable UUID shipmentId, @PathVariable UUID courierId) {
+
+        var command = new MarkShipmentAsDeliveredCommand(new ShipmentId(shipmentId.toString()),
+                                                         new CourierId(courierId.toString()));
+        Mono<Void> result = reactorCommandGateway.send(command);
+
+        return result.thenReturn("redirect:/courier-shipments");
     }
 }
