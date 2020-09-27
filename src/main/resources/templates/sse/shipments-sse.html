@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shipments - SEE</title>
+</head>
+<body>
+<table id="allShipments" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Courier Id</th>
+        <th>Status</th>
+        <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="result" data-th-each="shipment : ${shipments}">
+        <td>[[${shipment.aggregateIdentifier}]]</td>
+        <td>[[${shipment.courierId}]]</td>
+        <td>[[${shipment.state}]]</td>
+        <td>[[${shipment.address}]]</td>
+    </tr>
+    </tbody>
+</table>
+</body>

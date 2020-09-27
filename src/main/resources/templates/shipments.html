@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout-courier}">
 <head>
-    <title>Couriers</title>
+    <title>Shipments</title>
 </head>
 <body>
 
@@ -31,36 +31,28 @@
             <div class="row mt-1">
                 <div class="col-12">
                     <div class="card">
-                        <h3 class="card-header alert alert-primary">Create Courier</h3>
-                        <form class="card-body" th:action="@{/couriers}" th:object="${createCourierRequest}"
+                        <h3 class="card-header alert alert-primary">Create Shipments</h3>
+                        <form class="card-body" th:action="@{/shipments}" th:object="${createShipmentRequest}"
                               method="post">
                             <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name"
+                                <label for="firstName">City</label>
+                                <input type="text" th:field="*{city}" id="firstName" placeholder="City"
                                        class="form-control"/>
-                                <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                       class="text-danger">First Name
+                                <small th:if="${#fields.hasErrors('city')}" th:errors="*{city}"
+                                       class="text-danger">City
                                     Error</small>
 
-                                <label for="lastName">Last Name</label>
-                                <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last Name"
+                                <label for="street">Street</label>
+                                <input type="text" th:field="*{street}" id="street" placeholder="Street"
                                        class="form-control"/>
-                                <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                                       class="text-danger">Last Name
+                                <small th:if="${#fields.hasErrors('street')}" th:errors="*{street}"
+                                       class="text-danger">Street
                                     Error</small>
 
-                                <label for="maxNumberOfActiveOrders">Max Number Of Active Orders</label>
-                                <input type="text" th:field="*{maxNumberOfActiveOrders}" id="maxNumberOfActiveOrders"
-                                       placeholder="Max Number Of Active Orders"
-                                       class="form-control"/>
-                                <small th:if="${#fields.hasErrors('maxNumberOfActiveOrders')}"
-                                       th:errors="*{maxNumberOfActiveOrders}" class="text-danger">Max Number Of Active
-                                    Orders
-                                    Error</small>
                             </div>
 
                             <input data-toggle="tooltip" data-placement="top"
-                                   title="Creates the courier" type="submit" value="Create"
+                                   title="Creates the shipment" type="submit" value="Create"
                                    class="btn btn-primary"/>
                         </form>
                     </div>
@@ -70,17 +62,17 @@
             <div class="row mt-1">
                 <div class="col-12">
                     <div class="card">
-                        <h3 class="card-header alert alert-success">Couriers</h3>
+                        <h3 class="card-header alert alert-success">Shipments</h3>
                         <table class="table table-striped card-body">
                             <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Max Number Of Active Orders</th>
+                                <th>Courier Id</th>
+                                <th>Status</th>
+                                <th>Address</th>
                             </tr>
                             </thead>
-                            <tbody id="couriersTable">
+                            <tbody id="shipmentsTable">
 
 
                             </tbody>
@@ -95,17 +87,17 @@
 
     <script>
 
-        const couriersTable = document.getElementById("couriersTable");
+        const shipmentsTable = document.getElementById("shipmentsTable");
 
-        const couriers_source = new EventSource("/couriers-sse");
-        couriers_source.withCredentials = true;
-        couriers_source.addEventListener("message", function (event) {
-            couriersTable.innerHTML = event.data + couriersTable.innerHTML;
+        const shipments_source = new EventSource("/shipments-sse");
+        shipments_source.withCredentials = true;
+        shipments_source.addEventListener("message", function (event) {
+            shipmentsTable.innerHTML = event.data + shipmentsTable.innerHTML;
 
             //remove the duplicates (naive ;))
-            let arr = $("#couriersTable tr");
+            let arr = $("#shipmentsTable tr");
             $.each(arr, function (i, item) {
-                let currIndex = $("#couriersTable tr").eq(i);
+                let currIndex = $("#shipmentsTable tr").eq(i);
                 let matchText = currIndex.children("td").first().text();
                 $(this).nextAll().each(function (i, inItem) {
                     if (matchText === $(this).children("td").first().text()) {
