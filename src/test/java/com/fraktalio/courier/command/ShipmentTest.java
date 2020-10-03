@@ -3,8 +3,10 @@ package com.fraktalio.courier.command;
 import com.fraktalio.courier.command.api.Address;
 import com.fraktalio.courier.command.api.AssignShipmentCommand;
 import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierCommandExecutionException;
 import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
+import com.fraktalio.courier.command.api.ExceptionStatusCode;
 import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
 import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
@@ -98,6 +100,31 @@ public class ShipmentTest {
     }
 
     @Test
+    void assignShipmentFailedWithExceptionTest() {
+        var address = new Address("city", "name");
+        var shipmentId = new ShipmentId();
+        var courierId = new CourierId();
+        var auditEntry = new AuditEntry("anonymous",
+                                        Calendar.getInstance()
+                                                .getTime(),
+                                        Collections.singletonList("anonymous"));
+
+        var shipmentCreatedEvent = new ShipmentCreatedEvent(shipmentId,
+                                                            address,
+                                                            auditEntry);
+        var shipmentAssignedEvent = new ShipmentAssignedEvent(shipmentId, courierId, auditEntry);
+        Mockito.when(courierProjectionRepository.findById(courierId.identifier())).thenReturn(
+                Optional.of(new CourierProjection(shipmentId.identifier(), 3, 3)
+                ));
+        var assignShipmentCommand = new AssignShipmentCommand(shipmentId, courierId);
+        var shipmentNotAssignedEvent = new ShipmentNotAssignedEvent(shipmentId, courierId, auditEntry);
+        testFixture.given(shipmentCreatedEvent, shipmentAssignedEvent)
+                   .when(assignShipmentCommand)
+                   .expectException(CourierCommandExecutionException.class);
+    }
+
+
+    @Test
     void shipmentDeliveredTest() {
         var address = new Address("city", "name");
         var shipmentId = new ShipmentId();
@@ -117,5 +144,26 @@ public class ShipmentTest {
         testFixture.given(shipmentCreatedEvent, shipmentAssignedEvent)
                    .when(markShipmentAsDeliveredCommand)
                    .expectEvents(shipmentDeliveredEvent);
+    }
+
+    @Test
+    void shipmentDeliveredWithExceptionTest() {
+        var address = new Address("city", "name");
+        var shipmentId = new ShipmentId();
+        var courierId = new CourierId();
+        var auditEntry = new AuditEntry("anonymous",
+                                        Calendar.getInstance()
+                                                .getTime(),
+                                        Collections.singletonList("anonymous"));
+
+        var shipmentCreatedEvent = new ShipmentCreatedEvent(shipmentId,
+                                                            address,
+                                                            auditEntry);
+        var markShipmentAsDeliveredCommand = new MarkShipmentAsDeliveredCommand(shipmentId, courierId);
+        var shipmentDeliveredEvent = new ShipmentDeliveredEvent(shipmentId, courierId, auditEntry);
+
+        testFixture.given(shipmentCreatedEvent)
+                   .when(markShipmentAsDeliveredCommand)
+                   .expectException(CourierCommandExecutionException.class);
     }
 }

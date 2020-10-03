@@ -2,8 +2,10 @@ package com.fraktalio.courier.command;
 
 import com.fraktalio.courier.command.api.AssignShipmentCommand;
 import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.courier.command.api.CourierCommandExecutionException;
 import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
+import com.fraktalio.courier.command.api.ExceptionStatusCode;
 import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
 import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
@@ -14,6 +16,7 @@ import com.fraktalio.courier.command.api.ShipmentState;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
+import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
@@ -81,7 +84,7 @@ class Shipment {
                                                    auditEntry));
             }
         } else {
-            throw new UnsupportedOperationException("The shipment is not in CREATED state");
+            throw new UnsupportedOperationException(ExceptionStatusCode.SHIPMENT_NOT_CREATED.name());
         }
     }
 
@@ -107,12 +110,18 @@ class Shipment {
                                              command.courierId(),
                                              auditEntry));
         } else {
-            throw new UnsupportedOperationException("The shipment is not in ASSIGNED state");
+            throw new UnsupportedOperationException(ExceptionStatusCode.SHIPMENT_NOT_ASSIGNED.name());
         }
     }
 
     @EventSourcingHandler
     void on(ShipmentDeliveredEvent event) {
         state = ShipmentState.DELIVERED;
+    }
+
+    @ExceptionHandler(resultType = UnsupportedOperationException.class)
+    public void handle(UnsupportedOperationException exception) {
+        var statusCode = ExceptionStatusCode.valueOf(exception.getMessage());
+        throw new CourierCommandExecutionException(statusCode.getDescription(), exception, statusCode);
     }
 }
