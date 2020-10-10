@@ -119,7 +119,7 @@
 ![event modeling](.assets/event-model-systems-landscape.jpg)
 
 
-### **Restaurant Management System**
+### **Courier Management System**
 #### **Focus is on the Courier Management context/system within this Github repository**:
 ![event modeling](.assets/event-model.jpg)
 
