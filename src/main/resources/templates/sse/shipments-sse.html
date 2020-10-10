@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Shipments - SEE</title>
@@ -12,6 +13,7 @@
         <th>Courier Id</th>
         <th>Status</th>
         <th>Address</th>
+        <th>Assign</th>
     </tr>
     </thead>
     <tbody>
@@ -20,7 +22,25 @@
         <td>[[${shipment.courierId}]]</td>
         <td>[[${shipment.state}]]</td>
         <td>[[${shipment.address}]]</td>
+        <td>
+
+            <form class="card-body" th:if="${shipment.courierId == null}" th:action="@{/shipments/{shippmentId}/assigned(shippmentId = ${shipment.aggregateIdentifier})}"
+                  th:object="${assignShipmentRequest}"
+                  method="post">
+                <div class="form-group">
+                    <select class="form-control" id="courierOptionId" th:field="*{courierId}">
+                        <option data-th-each="courier : ${couriers}" th:value="${courier.id}" th:text="${courier.firstName}">
+                        </option>
+                    </select>
+
+                </div>
+                <input data-toggle="tooltip" data-placement="top"
+                       title="Assign Shipment to Courier" type="submit" value="Assign"
+                       class="btn btn-primary"/>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
 </body>
+

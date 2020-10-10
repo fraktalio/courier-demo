@@ -1,7 +1,5 @@
 package com.fraktalio.courier.web.api;
 
-import com.fraktalio.courier.command.api.Address;
-
 public class CreateShipmentRequest {
 
     private String city;

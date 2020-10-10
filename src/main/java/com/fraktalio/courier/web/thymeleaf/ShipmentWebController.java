@@ -6,11 +6,16 @@ import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
 import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
 import com.fraktalio.courier.command.api.ShipmentId;
+import com.fraktalio.courier.query.api.CourierModel;
+import com.fraktalio.courier.query.api.FindAllCouriersQuery;
 import com.fraktalio.courier.query.api.FindAllShipmentsQuery;
 import com.fraktalio.courier.query.api.ShipmentModel;
+import com.fraktalio.courier.web.api.AssignShipmentRequest;
 import com.fraktalio.courier.web.api.CreateShipmentRequest;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -26,6 +31,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import javax.validation.Valid;
 
 @Controller
@@ -33,20 +39,29 @@ public class ShipmentWebController {
 
     private final ReactorCommandGateway reactorCommandGateway;
     private final ReactorQueryGateway reactorQueryGateway;
+    private final QueryGateway queryGateway;
 
     public ShipmentWebController(
             ReactorCommandGateway reactorCommandGateway,
-            ReactorQueryGateway reactorQueryGateway) {
+            ReactorQueryGateway reactorQueryGateway,
+            QueryGateway queryGateway) {
         this.reactorCommandGateway = reactorCommandGateway;
         this.reactorQueryGateway = reactorQueryGateway;
+        this.queryGateway = queryGateway;
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('COURIER')")
     @GetMapping(value = "/shipments-sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    Mono<String> shipmentsSSE(Model model) {
+    Mono<String> shipmentsSSE(Model model) throws ExecutionException, InterruptedException {
         Flux<ShipmentModel> result =
                 reactorQueryGateway.subscriptionQueryMany(new FindAllShipmentsQuery(), ShipmentModel.class);
         model.addAttribute("shipments", new ReactiveDataDriverContextVariable(result, 1));
+        model.addAttribute("assignShipmentRequest", new AssignShipmentRequest());
+
+
+        var  couriers = queryGateway.query(new FindAllCouriersQuery(), ResponseTypes.multipleInstancesOf(CourierModel.class));
+        model.addAttribute("couriers", couriers.get());
+
         return Mono.just("sse/shipments-sse");
     }
 
@@ -84,15 +99,17 @@ public class ShipmentWebController {
     }
 
     @PreAuthorize("hasRole('MANAGER')")
-    @PostMapping("/shipments/{shipmentId}/courier/{courierId}/assigned")
-    Mono<String> assignShipment(@PathVariable UUID shipmentId, @PathVariable UUID courierId) {
-
+    @PostMapping("/shipments/{shipmentId}/assigned")
+    Mono<String> assignShipment(@Valid @ModelAttribute AssignShipmentRequest assignShipmentRequest,
+                                BindingResult bindingResult,
+                                @PathVariable UUID shipmentId) {
         var command = new AssignShipmentCommand(new ShipmentId(shipmentId.toString()),
-                                                new CourierId(courierId.toString()));
+                                                new CourierId(assignShipmentRequest.getCourierId()));
         Mono<Void> result = reactorCommandGateway.send(command);
 
         return result.thenReturn("redirect:/shipments");
     }
+
 
     @PreAuthorize("hasRole('MANAGER')")
     @PostMapping("/courier-shipments/{shipmentId}/courier/{courierId}/delivered")
