@@ -50,7 +50,7 @@ public class ShipmentWebController {
         this.queryGateway = queryGateway;
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('COURIER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping(value = "/shipments-sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     Mono<String> shipmentsSSE(Model model) throws ExecutionException, InterruptedException {
         Flux<ShipmentModel> result =
@@ -63,6 +63,22 @@ public class ShipmentWebController {
         model.addAttribute("couriers", couriers.get());
 
         return Mono.just("sse/shipments-sse");
+    }
+
+    @PreAuthorize("hasRole('COURIER')")
+    @GetMapping(value = "/courier-shipments-sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    Mono<String> courieerShipmentsSSE(Model model) throws ExecutionException, InterruptedException {
+        //TODO return Shipments for specific courier only
+        Flux<ShipmentModel> result =
+                reactorQueryGateway.subscriptionQueryMany(new FindAllShipmentsQuery(), ShipmentModel.class);
+        model.addAttribute("shipments", new ReactiveDataDriverContextVariable(result, 1));
+        model.addAttribute("assignShipmentRequest", new AssignShipmentRequest());
+
+
+        var  couriers = queryGateway.query(new FindAllCouriersQuery(), ResponseTypes.multipleInstancesOf(CourierModel.class));
+        model.addAttribute("couriers", couriers.get());
+
+        return Mono.just("sse/courier-shipments-sse");
     }
 
     @PreAuthorize("hasRole('MANAGER')")
@@ -111,7 +127,7 @@ public class ShipmentWebController {
     }
 
 
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('COURIER')")
     @PostMapping("/courier-shipments/{shipmentId}/courier/{courierId}/delivered")
     Mono<String> markShipmentDelivered(@PathVariable UUID shipmentId, @PathVariable UUID courierId) {
 

@@ -59,7 +59,7 @@
 
         const shipmentsTable = document.getElementById("shipmentsTable");
 
-        const shipments_source = new EventSource("/shipments-sse");
+        const shipments_source = new EventSource("/courier-shipments-sse");
         shipments_source.withCredentials = true;
         shipments_source.addEventListener("message", function (event) {
             shipmentsTable.innerHTML = event.data + shipmentsTable.innerHTML;

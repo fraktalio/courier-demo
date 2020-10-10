@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Shipments - SEE</title>
+</head>
+<body>
+<table id="allShipments" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Courier Id</th>
+        <th>Status</th>
+        <th>Address</th>
+        <th>Mark Delivered</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="result" data-th-each="shipment : ${shipments}">
+        <td>[[${shipment.aggregateIdentifier}]]</td>
+        <td>[[${shipment.courierId}]]</td>
+        <td>[[${shipment.state}]]</td>
+        <td>[[${shipment.address}]]</td>
+        <td>
+            <form class="card-body" th:action="@{/courier-shipments/{shipmentId}/courier/{courierId}/delivered(shipmentId = ${shipment.aggregateIdentifier}, courierId = ${shipment.courierId})}"
+                  method="post">
+                <input data-toggle="tooltip" data-placement="top"
+                       title="Mark shipment as delivered" type="submit" value="Mark Delivered"
+                       class="btn btn-primary"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
