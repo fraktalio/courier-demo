@@ -14,14 +14,14 @@
             <div class="row alert alert-warning alert-dismissible fade show">
                 <div class="col-6">
                     <div class="bg-white alert alert-dismissible fade show">
-                        <img class="img-fluid" th:src="@{img/2.jpg}"
+                        <img class="img-fluid" th:src="@{img/4.jpg}"
                              alt="event model of courier management context"/>
                     </div>
                 </div>
                 <div class="col-6">
-                    <p class="text-muted"><b>Command side</b>: Given no previous events, when `CreateShipment` command
-                        is handled, new event `ShipmentCreated` is published by the command side component.</p>
-                    <p class="text-muted"><b>Query side</b>: Given the event `ShipmentCreated` a `shipment` view is
+                    <p class="text-muted"><b>Command side</b>: Given `ShipmentCreated` and `ShipmentAssigned events, when `MarkShipmentAsDelivered` command
+                        is handled, new event `ShipmentDelivered` is published by the command side component.</p>
+                    <p class="text-muted"><b>Query side</b>: Given the event `ShipmentDelivered` a `shipment` view is
                         eventually materialized and refreshed by the query side component.</p>
                 </div>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
