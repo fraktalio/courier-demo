@@ -3,6 +3,7 @@ package com.fraktalio.courier.query.api;
 import com.fraktalio.courier.command.api.ShipmentState;
 
 public class ShipmentModel {
+
     private String aggregateIdentifier;
     private String courierId;
     private ShipmentState state;

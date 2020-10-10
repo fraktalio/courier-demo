@@ -6,7 +6,6 @@ import com.fraktalio.courier.command.api.AuditEntry;
 import com.fraktalio.courier.command.api.CourierCommandExecutionException;
 import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
-import com.fraktalio.courier.command.api.ExceptionStatusCode;
 import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
 import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentCreatedEvent;

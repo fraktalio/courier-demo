@@ -7,6 +7,6 @@ public record CreateShipmentCommand(@TargetAggregateIdentifier
                                     Address address) {
 
     public CreateShipmentCommand(Address address) {
-       this (new ShipmentId(), address);
+        this(new ShipmentId(), address);
     }
 }

@@ -24,12 +24,14 @@
         <td>[[${shipment.address}]]</td>
         <td>
 
-            <form class="card-body" th:if="${shipment.courierId == null}" th:action="@{/shipments/{shippmentId}/assigned(shippmentId = ${shipment.aggregateIdentifier})}"
+            <form class="card-body" th:if="${shipment.courierId == null}"
+                  th:action="@{/shipments/{shippmentId}/assigned(shippmentId = ${shipment.aggregateIdentifier})}"
                   th:object="${assignShipmentRequest}"
                   method="post">
                 <div class="form-group">
                     <select class="form-control" id="courierOptionId" th:field="*{courierId}">
-                        <option data-th-each="courier : ${couriers}" th:value="${courier.id}" th:text="${courier.firstName}">
+                        <option data-th-each="courier : ${couriers}" th:value="${courier.id}"
+                                th:text="${courier.firstName}">
                         </option>
                     </select>
 

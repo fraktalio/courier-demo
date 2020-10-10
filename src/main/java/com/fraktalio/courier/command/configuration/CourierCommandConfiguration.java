@@ -20,6 +20,7 @@ public class CourierCommandConfiguration {
 
     /************************************************/
     /*       Register interceptors on the bus       */
+
     /************************************************/
 
     @Autowired
@@ -39,6 +40,7 @@ public class CourierCommandConfiguration {
 
     /***************************************/
     /*    Aggregate cache configuration    */
+
     /***************************************/
 
     @Bean("cache")
@@ -48,6 +50,7 @@ public class CourierCommandConfiguration {
 
     /***************************************/
     /*  Aggregate snapshot configuration   */
+
     /***************************************/
 
     @Bean

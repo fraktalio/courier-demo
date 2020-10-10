@@ -23,7 +23,8 @@
         <td>[[${shipment.state}]]</td>
         <td>[[${shipment.address}]]</td>
         <td>
-            <form class="card-body" th:action="@{/courier-shipments/{shipmentId}/courier/{courierId}/delivered(shipmentId = ${shipment.aggregateIdentifier}, courierId = ${shipment.courierId})}"
+            <form class="card-body"
+                  th:action="@{/courier-shipments/{shipmentId}/courier/{courierId}/delivered(shipmentId = ${shipment.aggregateIdentifier}, courierId = ${shipment.courierId})}"
                   method="post">
                 <input data-toggle="tooltip" data-placement="top"
                        title="Mark shipment as delivered" type="submit" value="Mark Delivered"

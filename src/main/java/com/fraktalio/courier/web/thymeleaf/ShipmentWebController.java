@@ -59,7 +59,8 @@ public class ShipmentWebController {
         model.addAttribute("assignShipmentRequest", new AssignShipmentRequest());
 
 
-        var  couriers = queryGateway.query(new FindAllCouriersQuery(), ResponseTypes.multipleInstancesOf(CourierModel.class));
+        var couriers = queryGateway.query(new FindAllCouriersQuery(),
+                                          ResponseTypes.multipleInstancesOf(CourierModel.class));
         model.addAttribute("couriers", couriers.get());
 
         return Mono.just("sse/shipments-sse");
@@ -75,7 +76,8 @@ public class ShipmentWebController {
         model.addAttribute("assignShipmentRequest", new AssignShipmentRequest());
 
 
-        var  couriers = queryGateway.query(new FindAllCouriersQuery(), ResponseTypes.multipleInstancesOf(CourierModel.class));
+        var couriers = queryGateway.query(new FindAllCouriersQuery(),
+                                          ResponseTypes.multipleInstancesOf(CourierModel.class));
         model.addAttribute("couriers", couriers.get());
 
         return Mono.just("sse/courier-shipments-sse");
