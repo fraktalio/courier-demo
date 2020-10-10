@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config-demo-courier
+  labels:
+    app: postgres-courier
+data:
+  POSTGRES_DB: courier
+  POSTGRES_USER: demouser
+  POSTGRES_PASSWORD: thepassword

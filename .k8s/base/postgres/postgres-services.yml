@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-courier
+  labels:
+    app: postgres-courier
+spec:
+  ports:
+    - port: 5432
+      name: postgres-courier
+  clusterIP: None
+  selector:
+    app: postgres-courier

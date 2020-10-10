@@ -214,9 +214,15 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>1.6.1</version>
+                <version>1.8.0</version>
                 <configuration>
-                    <to>courier-demo</to>
+                    <container>
+                        <jvmFlags>--enable-preview</jvmFlags>
+                    </container>
+                    <to>courier</to>
+                    <from>
+                        <image>adoptopenjdk/openjdk14</image>
+                    </from>
                 </configuration>
             </plugin>
         </plugins>

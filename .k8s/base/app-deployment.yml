@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: courier
+  name: courier
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: courier
+  template:
+    metadata:
+      labels:
+        app: courier
+    spec:
+      containers:
+        - image: courier:latest
+          name: courier
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: courier
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8081
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+            periodSeconds: 15

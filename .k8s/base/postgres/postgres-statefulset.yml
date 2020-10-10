@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-courier
+spec:
+  serviceName: "postgres-courier"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-courier
+  template:
+    metadata:
+      labels:
+        app: postgres-courier
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          envFrom:
+            - configMapRef:
+                name: postgres-config-demo-courier
+          ports:
+            - containerPort: 5432
+              name: postgredb
