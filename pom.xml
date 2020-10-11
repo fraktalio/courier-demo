@@ -17,6 +17,7 @@
     <properties>
         <java.version>14</java.version>
         <axon.version>4.4.2</axon.version>
+        <testcontainers.version>1.14.3</testcontainers.version>
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
 
@@ -158,19 +159,19 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.14.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.14.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.14.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
 
