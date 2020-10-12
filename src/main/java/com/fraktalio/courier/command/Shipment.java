@@ -2,7 +2,6 @@ package com.fraktalio.courier.command;
 
 import com.fraktalio.courier.command.api.AssignShipmentCommand;
 import com.fraktalio.courier.command.api.AuditEntry;
-import com.fraktalio.courier.command.api.CourierCommandExecutionException;
 import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
 import com.fraktalio.courier.command.api.ExceptionStatusCode;
@@ -13,6 +12,7 @@ import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
 import com.fraktalio.courier.command.api.ShipmentId;
 import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentState;
+import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.annotation.MetaDataValue;
@@ -122,6 +122,6 @@ class Shipment {
     @ExceptionHandler(resultType = UnsupportedOperationException.class)
     public void handle(UnsupportedOperationException exception) {
         var statusCode = ExceptionStatusCode.valueOf(exception.getMessage());
-        throw new CourierCommandExecutionException(statusCode.getDescription(), exception, statusCode);
+        throw new CommandExecutionException(statusCode.getDescription(), exception, statusCode);
     }
 }

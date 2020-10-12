@@ -3,7 +3,6 @@ package com.fraktalio.courier.command;
 import com.fraktalio.courier.command.api.Address;
 import com.fraktalio.courier.command.api.AssignShipmentCommand;
 import com.fraktalio.courier.command.api.AuditEntry;
-import com.fraktalio.courier.command.api.CourierCommandExecutionException;
 import com.fraktalio.courier.command.api.CourierId;
 import com.fraktalio.courier.command.api.CreateShipmentCommand;
 import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
@@ -13,6 +12,7 @@ import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
 import com.fraktalio.courier.command.api.ShipmentId;
 import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
 import com.fraktalio.courier.web.configuration.SpringSecurityReactorMessageDispatchInterceptor;
+import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
@@ -119,7 +119,7 @@ public class ShipmentTest {
         var shipmentNotAssignedEvent = new ShipmentNotAssignedEvent(shipmentId, courierId, auditEntry);
         testFixture.given(shipmentCreatedEvent, shipmentAssignedEvent)
                    .when(assignShipmentCommand)
-                   .expectException(CourierCommandExecutionException.class);
+                   .expectException(CommandExecutionException.class);
     }
 
 
@@ -159,10 +159,9 @@ public class ShipmentTest {
                                                             address,
                                                             auditEntry);
         var markShipmentAsDeliveredCommand = new MarkShipmentAsDeliveredCommand(shipmentId, courierId);
-        var shipmentDeliveredEvent = new ShipmentDeliveredEvent(shipmentId, courierId, auditEntry);
 
         testFixture.given(shipmentCreatedEvent)
                    .when(markShipmentAsDeliveredCommand)
-                   .expectException(CourierCommandExecutionException.class);
+                   .expectException(CommandExecutionException.class);
     }
 }
