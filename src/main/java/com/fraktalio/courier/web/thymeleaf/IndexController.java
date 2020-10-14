@@ -14,7 +14,7 @@ public class IndexController {
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('COURIER')")
     @GetMapping("/")
-    Mono<String> restaurants(Model model, @AuthenticationPrincipal UserDetails user) {
+    Mono<String> couriers(Model model, @AuthenticationPrincipal UserDetails user) {
         if (user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .anyMatch(s -> s.equals("ROLE_MANAGER"))) {
             return Mono.just("index-manager");

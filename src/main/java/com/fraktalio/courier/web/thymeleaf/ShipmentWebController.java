@@ -68,7 +68,7 @@ public class ShipmentWebController {
 
     @PreAuthorize("hasRole('COURIER')")
     @GetMapping(value = "/courier-shipments-sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    Mono<String> courieerShipmentsSSE(Model model) throws ExecutionException, InterruptedException {
+    Mono<String> courierShipmentsSSE(Model model) throws ExecutionException, InterruptedException {
         //TODO return Shipments for specific courier only
         Flux<ShipmentModel> result =
                 reactorQueryGateway.subscriptionQueryMany(new FindAllShipmentsQuery(), ShipmentModel.class);
