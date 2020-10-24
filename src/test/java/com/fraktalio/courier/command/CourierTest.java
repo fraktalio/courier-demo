@@ -1,6 +1,6 @@
 package com.fraktalio.courier.command;
 
-import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.api.AuditEntry;
 import com.fraktalio.courier.command.api.CourierCreatedEvent;
 import com.fraktalio.courier.command.api.CreateCourierCommand;
 import com.fraktalio.courier.web.configuration.SpringSecurityReactorMessageDispatchInterceptor;

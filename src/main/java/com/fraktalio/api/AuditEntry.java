@@ -1,4 +1,4 @@
-package com.fraktalio.courier.command.api;
+package com.fraktalio.api;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

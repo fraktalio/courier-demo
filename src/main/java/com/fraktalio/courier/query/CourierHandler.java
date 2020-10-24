@@ -1,6 +1,6 @@
 package com.fraktalio.courier.query;
 
-import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.api.AuditEntry;
 import com.fraktalio.courier.command.api.CourierCreatedEvent;
 import com.fraktalio.courier.query.api.CourierModel;
 import com.fraktalio.courier.query.api.FindAllCouriersQuery;

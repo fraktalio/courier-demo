@@ -1,6 +1,6 @@
 package com.fraktalio.courier.query;
 
-import com.fraktalio.courier.command.api.AuditEntry;
+import com.fraktalio.api.AuditEntry;
 import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
 import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
 import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
