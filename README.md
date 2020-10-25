@@ -1,5 +1,19 @@
 # Courier - demo
 
+### Systems Landscape
+[Event Modeling](https://eventmodeling.org/) is a method of describing systems using an example of how information has changed within them over time.
+![event modeling](.assets/event-model-systems-landscape.jpg)
+
+The systems landscape consists of three systems [order management](https://github.com/fraktalio/order-demo), [restaurant management](https://github.com/fraktalio/restaurant-demo) and [courier management](https://github.com/fraktalio/courier-demo)
+
+### **Courier Management System**
+![event modeling](.assets/event-model.jpg)
+
+Specification by example (SBE) is a collaborative approach to defining requirements and business-oriented functional tests for software products based on capturing and illustrating requirements using realistic examples instead of abstract statements.
+
+![spec by example](.assets/spec-by-example.jpg)
+
+
 <table>
     <tr>
         <td><strong>Name:</strong></td>
@@ -109,18 +123,6 @@
     </tr>
 </table>
 
-
-
-### Systems Landscape
-[Event Modeling](https://eventmodeling.org/) is a method of describing systems using an example of how information has changed within them over time.
-![event modeling](.assets/event-model-systems-landscape.jpg)
-
-The systems landscape consists of three systems [order management](https://github.com/fraktalio/order-demo), [restaurant management](https://github.com/fraktalio/restaurant-demo) and [courier management](https://github.com/fraktalio/courier-demo)
-
-### **Courier Management System**
-![event modeling](.assets/event-model.jpg)
-
-![spec by example](.assets/spec-by-example.jpg)
 
 
 ## Development
