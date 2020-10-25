@@ -147,10 +147,7 @@ This project is driven using [maven].
 ```bash
 ./mvnw clean verify
 ```
-to additionally run integration [testcontainers] tests (docker required):
-```bash
-./mvnw clean verify -DskipIntegrationTests=false
-```
+
 **Run**
 
 ```bash
