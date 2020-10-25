@@ -125,25 +125,6 @@ Specification by example (SBE) is a collaborative approach to defining requireme
     </tr>
 </table>
 
-
-
-<<<<<<< HEAD
-=======
-### Systems Landscape
-[Event Modeling](https://eventmodeling.org/) is a method of describing systems using an example of how information has changed within them over time.
-![event modeling](.assets/event-model-systems-landscape.jpg)
-
-The systems landscape consists of three systems [order management](https://github.com/fraktalio/order-demo), [restaurant management](https://github.com/fraktalio/restaurant-demo) and [courier management](https://github.com/fraktalio/courier-demo).
-
-Customers use the web application to place food orders at local restaurants. Application(s) coordinates a restaurant/kitchen order preparation and a network of couriers who deliver the orders.
-
-### **Courier Management System**
-![event modeling](.assets/event-model.jpg)
-
-![spec by example](.assets/spec-by-example.jpg)
-
-
->>>>>>> d5b857f8dcb8c83718db3b1139283d02d1f96850
 ## Development
 
 This project is driven using [maven].
