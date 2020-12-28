@@ -20,5 +20,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 14
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+      - name: Build and Deploy with Maven
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: mvn -B deploy --file pom.xml
+
