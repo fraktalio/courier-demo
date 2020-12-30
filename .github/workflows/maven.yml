@@ -27,4 +27,4 @@ jobs:
       - name: Build and Deploy with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./mvnw --batch-mode deploy --file pom.xml
+        run: ./mvnw --batch-mode deploy
