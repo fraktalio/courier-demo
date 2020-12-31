@@ -3,7 +3,7 @@
 ### Systems Landscape
 [Event Modeling](https://eventmodeling.org/) is a method of describing systems using an example of how information has changed within them over time.
 
-![CI with maven](https://github.com/fraktalio/courer-demo/workflows/CI%20with%20Maven%20-%20Test,%20Build%20and%20Publish/badge.svg)
+![CI with maven](https://github.com/fraktalio/courier-demo/workflows/CI%20with%20Maven%20-%20Test,%20Build%20and%20Publish/badge.svg)
 
 ![event modeling](.assets/event-model-systems-landscape.jpg)
 
