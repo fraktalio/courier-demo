@@ -1,12 +1,11 @@
 package com.fraktalio.courier;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -16,9 +15,11 @@ public class CourierApplication {
         SpringApplication.run(CourierApplication.class, args);
     }
 
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
-        return builder ->
-                builder.visibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    // https://github.com/AxonFramework/AxonFramework/issues/1418
+    @Autowired
+    public void configureObjectMapper(ObjectMapper mapper) {
+        mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(),
+                                     ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
 }
