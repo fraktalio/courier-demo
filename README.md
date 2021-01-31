@@ -179,6 +179,11 @@ Deploy:
 kubectl apply -k .k8s/base
 ```
 
+Delete:
+```
+kubectl delete -k .k8s/base
+kubectl delete pvc --all
+```
 **Continuously deploy with google skaffold**
 
 >- [Skaffold](https://github.com/GoogleContainerTools/skaffold) is a command line tool that facilitates continuous development for Kubernetes applications.
