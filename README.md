@@ -3,25 +3,45 @@
 ![CI with maven](https://github.com/fraktalio/courier-demo/workflows/CI%20with%20Maven%20-%20Test,%20Build%20and%20Publish/badge.svg)
 
 
-### Systems Landscape
+## Systems Landscape
+The systems landscape consists of three systems [order management](https://github.com/fraktalio/order-demo), [restaurant management](https://github.com/fraktalio/restaurant-demo) and [courier management](https://github.com/fraktalio/courier-demo)
+
+Customers use the web application to place food orders at local restaurants. Application(s) coordinates a restaurant/kitchen order preparation, and a network of couriers who deliver the orders.
+### Vision
 [Event Modeling](https://eventmodeling.org/) is a method of describing systems using an example of how information has changed within them over time.
 
 ![event modeling](.assets/event-model-systems-landscape.jpg)
 
-The systems landscape consists of three systems [order management](https://github.com/fraktalio/order-demo), [restaurant management](https://github.com/fraktalio/restaurant-demo) and [courier management](https://github.com/fraktalio/courier-demo)
+### Structure
+The [C4 software architecture model](https://c4model.com/) is a simple hierarchical way to think about the static structures of a software system in terms of containers, components and classes (or code).
 
-Customers use the web application to place food orders at local restaurants. Application(s) coordinates a restaurant/kitchen order preparation and a network of couriers who deliver the orders.
+A System `Context` diagram can be a useful starting point for diagramming and documenting a software system, allowing you to step back and look at the big picture.
 
 ![landscape](.assets/landscapeViews.png)
 
-### **Courier Management System**
+## **Courier Management System**
+
+Managing courier information. A courier view of an order (managing the delivery of orders). 
+
+### Vision
+We zoom in to show the event model of the Courier Management System only:
+
 ![event modeling](.assets/event-model.jpg)
 
 Specification by example (SBE) is a collaborative approach to defining requirements and business-oriented functional tests for software products based on capturing and illustrating requirements using realistic examples instead of abstract statements.
 
 ![spec by example](.assets/spec-by-example.jpg)
 
+### Structure
+Once you understand how your system fits in to the overall IT environment with a System Context diagram, a really useful next step can be to illustrate the high-level technology choices with a Container diagram:
 
+![containers diagram](.assets/containerViews.png)
+
+Following on from a Container diagram showing the high-level technology decisions, you can then start to zoom in and decompose each container further:
+
+![components diagram](.assets/componentViews.png)
+
+### Canvas
 <table>
     <tr>
         <td><strong>Name:</strong></td>
@@ -217,6 +237,7 @@ $ skaffold run -p observability
 - [https://miro.com/app/board/o9J_kqtuB6A=/](https://miro.com/app/board/o9J_kqtuB6A=/)
 - [https://eventmodeling.org/](https://eventmodeling.org/)
 - [https://docs.axoniq.io/reference-guide/](https://docs.axoniq.io/reference-guide/)
+- [https://c4model.com/](https://c4model.com/)
    
 ---
 Created with :heart: by [Fraktalio](https://fraktalio.com/)
