@@ -16,9 +16,9 @@
 
     <properties>
         <java.version>14</java.version>
-        <axon.version>4.4.6</axon.version>
+        <axon.version>4.4.7</axon.version>
         <axon-reactor.version>4.4.2</axon-reactor.version>
-        <testcontainers.version>1.15.1</testcontainers.version>
+        <testcontainers.version>1.15.2</testcontainers.version>
         <skipIntegrationTests>true</skipIntegrationTests>
         <git.repository>fraktalio/courier-demo</git.repository>
     </properties>
