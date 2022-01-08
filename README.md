@@ -243,6 +243,8 @@ $ skaffold run -p observability
 - [https://eventmodeling.org/](https://eventmodeling.org/)
 - [https://docs.axoniq.io/reference-guide/](https://docs.axoniq.io/reference-guide/)
 - [https://c4model.com/](https://c4model.com/)
+- [https://structurizr.com/](https://structurizr.com/)
+- [https://github.com/archifacts/archifacts](https://github.com/archifacts/archifacts)
    
 ---
 Created with :heart: by [Fraktalio](https://fraktalio.com/)
