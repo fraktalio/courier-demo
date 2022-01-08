@@ -160,7 +160,12 @@ This project is driven using [maven].
 
 **Requirements**
 
-- [Java 14+](https://adoptopenjdk.net/)
+- Java 17
+
+```
+sdk install java 17.0.1-zulu
+sdk use java 17.0.1-zulu
+```
 
 >You can [download](https://download.axoniq.io/axonserver/AxonServer.zip) a ZIP file with AxonServer as a standalone JAR. This will also give you the AxonServer CLI and information on how to run and configure the server.
 >
