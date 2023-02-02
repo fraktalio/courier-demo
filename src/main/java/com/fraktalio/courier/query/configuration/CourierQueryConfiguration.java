@@ -12,6 +12,7 @@ public class CourierQueryConfiguration {
 
     /**************************************************/
     /* Register handler interceptors on the query bus */
+
     /**************************************************/
 
     @Autowired
@@ -25,6 +26,7 @@ public class CourierQueryConfiguration {
     /* We change this behaviour by configuring custom listener PropagatingErrorHandler to re-throw the exception to the processor. */
 
     /* https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors#exceptions-raised-by-event-handler-methods */
+
     /*******************************************************************************************************************************/
 
     @Autowired

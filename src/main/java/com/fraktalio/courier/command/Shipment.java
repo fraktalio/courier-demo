@@ -1,17 +1,7 @@
 package com.fraktalio.courier.command;
 
-import com.fraktalio.courier.command.api.AssignShipmentCommand;
 import com.fraktalio.api.AuditEntry;
-import com.fraktalio.courier.command.api.CourierId;
-import com.fraktalio.courier.command.api.CreateShipmentCommand;
-import com.fraktalio.courier.command.api.ExceptionStatusCode;
-import com.fraktalio.courier.command.api.MarkShipmentAsDeliveredCommand;
-import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
-import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
-import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
-import com.fraktalio.courier.command.api.ShipmentId;
-import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
-import com.fraktalio.courier.command.api.ShipmentState;
+import com.fraktalio.courier.command.api.*;
 import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -72,16 +62,16 @@ class Shipment {
         if (ShipmentState.CREATED == state) {
 
             Optional<CourierProjection> entity = courierProjectionRepository.findById(command.courierId()
-                                                                                             .identifier());
+                    .identifier());
             if (entity.isPresent() && entity.get().getNumberOfActiveOrders() < entity.get()
-                                                                                     .getMaxNumberOfActiveOrders()) {
+                    .getMaxNumberOfActiveOrders()) {
                 apply(new ShipmentAssignedEvent(command.targetAggregateIdentifier(),
-                                                command.courierId(),
-                                                auditEntry));
+                        command.courierId(),
+                        auditEntry));
             } else {
                 apply(new ShipmentNotAssignedEvent(command.targetAggregateIdentifier(),
-                                                   command.courierId(),
-                                                   auditEntry));
+                        command.courierId(),
+                        auditEntry));
             }
         } else {
             throw new UnsupportedOperationException(ExceptionStatusCode.SHIPMENT_NOT_CREATED.name());
@@ -107,8 +97,8 @@ class Shipment {
             CourierProjectionRepository courierProjectionRepository) {
         if (ShipmentState.ASSIGNED == state && command.courierId().equals(courierId)) {
             apply(new ShipmentDeliveredEvent(command.targetAggregateIdentifier(),
-                                             command.courierId(),
-                                             auditEntry));
+                    command.courierId(),
+                    auditEntry));
         } else {
             throw new UnsupportedOperationException(ExceptionStatusCode.SHIPMENT_NOT_ASSIGNED.name());
         }

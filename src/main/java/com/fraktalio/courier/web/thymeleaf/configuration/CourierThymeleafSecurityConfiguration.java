@@ -15,10 +15,10 @@ class CourierThymeleafSecurityConfiguration {
     @Bean
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.csrf().disable()
-            .authorizeExchange()
-            .matchers(EndpointRequest.toAnyEndpoint()).permitAll()
-            .anyExchange().authenticated()
-            .and().formLogin().and().logout();
+                .authorizeExchange()
+                .matchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                .anyExchange().authenticated()
+                .and().formLogin().and().logout();
 
         return http.build();
     }

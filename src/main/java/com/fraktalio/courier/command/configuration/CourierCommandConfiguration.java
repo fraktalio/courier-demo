@@ -67,14 +67,14 @@ public class CourierCommandConfiguration {
     EventCountSnapshotTriggerDefinition courierSnapshotTriggerDefinition(Snapshotter snapshotter,
                                                                          CourierProperties courierProperties) {
         return new EventCountSnapshotTriggerDefinition(snapshotter,
-                                                       courierProperties.snapshotTriggerThresholdCourier());
+                courierProperties.snapshotTriggerThresholdCourier());
     }
 
     @Bean("shipmentSnapshotTriggerDefinition")
     EventCountSnapshotTriggerDefinition shipmentSnapshotTriggerDefinition(Snapshotter snapshotter,
                                                                           CourierProperties courierProperties) {
         return new EventCountSnapshotTriggerDefinition(snapshotter,
-                                                       courierProperties.snapshotTriggerThresholdShipment());
+                courierProperties.snapshotTriggerThresholdShipment());
     }
 
     /***************************************************************************/

@@ -5,6 +5,7 @@ import com.fraktalio.courier.command.api.CreateCourierCommand;
 import com.fraktalio.courier.query.api.CourierModel;
 import com.fraktalio.courier.query.api.FindAllCouriersQuery;
 import com.fraktalio.courier.web.api.CreateCourierRequest;
+import jakarta.validation.Valid;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
 import org.springframework.http.MediaType;
@@ -16,11 +17,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
+import org.thymeleaf.spring6.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @Controller
 public class CourierWebController {
@@ -59,7 +58,7 @@ public class CourierWebController {
     ) {
 
         var command = new CreateCourierCommand(createCourierRequest.getFirstName(), createCourierRequest.getLastName(),
-                                               createCourierRequest.getMaxNumberOfActiveOrders());
+                createCourierRequest.getMaxNumberOfActiveOrders());
         Mono<CourierId> result = reactorCommandGateway.send(command);
 
         return Mono
