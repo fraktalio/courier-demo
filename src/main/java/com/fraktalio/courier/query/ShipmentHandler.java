@@ -1,11 +1,7 @@
 package com.fraktalio.courier.query;
 
 import com.fraktalio.api.AuditEntry;
-import com.fraktalio.courier.command.api.ShipmentAssignedEvent;
-import com.fraktalio.courier.command.api.ShipmentCreatedEvent;
-import com.fraktalio.courier.command.api.ShipmentDeliveredEvent;
-import com.fraktalio.courier.command.api.ShipmentNotAssignedEvent;
-import com.fraktalio.courier.command.api.ShipmentState;
+import com.fraktalio.courier.command.api.*;
 import com.fraktalio.courier.query.api.FindAllShipmentsQuery;
 import com.fraktalio.courier.query.api.FindShipmentQuery;
 import com.fraktalio.courier.query.api.ShipmentModel;
@@ -32,9 +28,9 @@ class ShipmentHandler {
 
     private ShipmentModel convert(ShipmentEntity entity) {
         return new ShipmentModel(entity.getId(),
-                                 entity.getCourierId(),
-                                 entity.getState(),
-                                 entity.getAddress());
+                entity.getCourierId(),
+                entity.getState(),
+                entity.getAddress());
     }
 
 
@@ -46,11 +42,11 @@ class ShipmentHandler {
     @EventHandler
     void on(ShipmentCreatedEvent event) {
         var record = shipmentRepository.save(new ShipmentEntity(event.aggregateIdentifier().identifier(),
-                                                                null,
-                                                                ShipmentState.CREATED,
-                                                                MessageFormat.format("{0},{1}",
-                                                                                     event.address().city(),
-                                                                                     event.address().street())));
+                null,
+                ShipmentState.CREATED,
+                MessageFormat.format("{0},{1}",
+                        event.address().city(),
+                        event.address().street())));
 
         queryUpdateEmitter.emit(
                 FindAllShipmentsQuery.class,
@@ -61,8 +57,8 @@ class ShipmentHandler {
     @EventHandler
     void on(ShipmentAssignedEvent event) {
         var record = shipmentRepository.findById(event.aggregateIdentifier().identifier())
-                                       .orElseThrow(() -> new UnsupportedOperationException(
-                                               "Shipment with id '" + event.aggregateIdentifier() + "' not found"));
+                .orElseThrow(() -> new UnsupportedOperationException(
+                        "Shipment with id '" + event.aggregateIdentifier() + "' not found"));
 
         record.setCourierId(event.courierId().identifier());
         record.setState(ShipmentState.ASSIGNED);
@@ -82,8 +78,8 @@ class ShipmentHandler {
     @EventHandler
     void on(ShipmentNotAssignedEvent event) {
         var record = shipmentRepository.findById(event.aggregateIdentifier().identifier())
-                                       .orElseThrow(() -> new UnsupportedOperationException(
-                                               "Shipment with id '" + event.aggregateIdentifier() + "' not found"));
+                .orElseThrow(() -> new UnsupportedOperationException(
+                        "Shipment with id '" + event.aggregateIdentifier() + "' not found"));
 
         record.setCourierId(null);
         record.setState(ShipmentState.CREATED);
@@ -103,8 +99,8 @@ class ShipmentHandler {
     @EventHandler
     void on(ShipmentDeliveredEvent event) {
         var record = shipmentRepository.findById(event.aggregateIdentifier().identifier())
-                                       .orElseThrow(() -> new UnsupportedOperationException(
-                                               "Shipment with id '" + event.aggregateIdentifier() + "' not found"));
+                .orElseThrow(() -> new UnsupportedOperationException(
+                        "Shipment with id '" + event.aggregateIdentifier() + "' not found"));
 
         record.setCourierId(event.courierId().identifier());
         record.setState(ShipmentState.DELIVERED);
@@ -124,15 +120,15 @@ class ShipmentHandler {
     @QueryHandler
     List<ShipmentModel> on(FindAllShipmentsQuery query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         return shipmentRepository.findAll().stream()
-                                 .map(this::convert)
-                                 .collect(Collectors.toList());
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     @QueryHandler
     ShipmentModel on(FindShipmentQuery query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         return shipmentRepository.findById(query.shipmentId().identifier())
-                                 .map(this::convert)
-                                 .orElseThrow(() -> new UnsupportedOperationException(
-                                         "Courier with id '" + query.shipmentId().identifier() + "' not found"));
+                .map(this::convert)
+                .orElseThrow(() -> new UnsupportedOperationException(
+                        "Courier with id '" + query.shipmentId().identifier() + "' not found"));
     }
 }

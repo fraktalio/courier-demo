@@ -27,9 +27,9 @@ class CourierHandler {
 
     private CourierModel convert(CourierEntity entity) {
         return new CourierModel(entity.getId(),
-                                entity.getFirstName(),
-                                entity.getLastName(),
-                                entity.getMaxNumberOfActiveOrders());
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getMaxNumberOfActiveOrders());
     }
 
 
@@ -41,10 +41,10 @@ class CourierHandler {
     @EventHandler
     void on(CourierCreatedEvent event) {
         var record = courierRepository.save(new CourierEntity(event.aggregateIdentifier().identifier(),
-                                                              event.firstName(),
-                                                              event.lastName(),
-                                                              event.maxNumberOfActiveOrders(),
-                                                              0));
+                event.firstName(),
+                event.lastName(),
+                event.maxNumberOfActiveOrders(),
+                0));
 
         queryUpdateEmitter.emit(
                 FindAllCouriersQuery.class,
@@ -55,15 +55,15 @@ class CourierHandler {
     @QueryHandler
     List<CourierModel> on(FindAllCouriersQuery query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         return courierRepository.findAll().stream()
-                                .map(this::convert)
-                                .collect(Collectors.toList());
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     @QueryHandler
     CourierModel on(FindCourierQuery query, @MetaDataValue(value = "auditEntry") AuditEntry auditEntry) {
         return courierRepository.findById(query.courierId().identifier())
-                                .map(this::convert)
-                                .orElseThrow(() -> new UnsupportedOperationException(
-                                        "Courier with id '" + query.courierId().identifier() + "' not found"));
+                .map(this::convert)
+                .orElseThrow(() -> new UnsupportedOperationException(
+                        "Courier with id '" + query.courierId().identifier() + "' not found"));
     }
 }

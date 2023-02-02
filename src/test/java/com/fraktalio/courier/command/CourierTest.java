@@ -5,7 +5,8 @@ import com.fraktalio.courier.command.api.CourierCreatedEvent;
 import com.fraktalio.courier.command.api.CreateCourierCommand;
 import com.fraktalio.courier.web.configuration.SpringSecurityReactorMessageDispatchInterceptor;
 import org.axonframework.test.aggregate.AggregateTestFixture;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -24,15 +25,15 @@ public class CourierTest {
     void createCourierTest() {
         var createCourierCommand = new CreateCourierCommand("Ivan", "Dugalic", 10);
         var courierCreatedEvent = new CourierCreatedEvent(createCourierCommand.targetAggregateIdentifier(),
-                                                          "Ivan",
-                                                          "Dugalic",
-                                                          10,
-                                                          new AuditEntry("anonymous",
-                                                                         Calendar.getInstance()
-                                                                                 .getTime(),
-                                                                         Collections.singletonList("anonymous")));
+                "Ivan",
+                "Dugalic",
+                10,
+                new AuditEntry("anonymous",
+                        Calendar.getInstance()
+                                .getTime(),
+                        Collections.singletonList("anonymous")));
         testFixture.given()
-                   .when(createCourierCommand)
-                   .expectEvents(courierCreatedEvent);
+                .when(createCourierCommand)
+                .expectEvents(courierCreatedEvent);
     }
 }

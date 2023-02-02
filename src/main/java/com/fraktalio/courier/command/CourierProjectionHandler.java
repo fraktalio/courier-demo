@@ -25,8 +25,8 @@ class CourierProjectionHandler {
     @EventHandler
     void on(CourierCreatedEvent event) {
         courierProjectionRepository.save(new CourierProjection(event.aggregateIdentifier().identifier(),
-                                                               event.maxNumberOfActiveOrders(),
-                                                               0));
+                event.maxNumberOfActiveOrders(),
+                0));
     }
 
     @EventHandler
